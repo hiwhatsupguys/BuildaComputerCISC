@@ -1,7 +1,10 @@
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Computer {
-    // part and type? the key could be anything
-    public HashMap<String, Part> parts;
-
+    private ArrayList<Part> computerParts;
+    
+    public Computer() {
+    
+    }
+    
 }
