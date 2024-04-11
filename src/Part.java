@@ -1,4 +1,5 @@
 public abstract class Part {
+    
     private final String name;
     private final String manufacturer;
     private String type = "";
