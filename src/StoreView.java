@@ -14,9 +14,11 @@ public class StoreView extends JFrame {
     private JButton[][] partSelectButtons;
     private int WIDTH;
     private int HEIGHT;
+    private StoreModel storeModel;
     
-    public StoreView() {
+    public StoreView(StoreModel storeModel) {
         // initializations
+        this.storeModel = storeModel;
         textColor = Color.white;
         borderColor = Color.white;
         panelColor = Color.darkGray;
@@ -40,6 +42,12 @@ public class StoreView extends JFrame {
         storePanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 //        storePanel.setBackground(Color.white);
         
+        // partSelectButtons
+        
+        // buttonsPanel
+        buttonsPanel = new JPanel();
+        
+        
         // pickPartPanel
         pickPartPanel = new JPanel();
         pickPartPanel.setLayout(new BorderLayout());
@@ -52,6 +60,7 @@ public class StoreView extends JFrame {
 //        pickPartLabel.setVerticalAlignment(SwingConstants.CENTER);
         pickPartLabel.setFont(new Font("Verdana", Font.PLAIN, 20));
         pickPartLabel.setForeground(textColor);
+        pickPartPanel.add(buttonsPanel, BorderLayout.CENTER);
         pickPartPanel.add(pickPartLabel, BorderLayout.NORTH);
         
         // specsPanel

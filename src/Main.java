@@ -3,7 +3,8 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		StoreView storeView = new StoreView();
+		StoreModel storeModel = new StoreModel();
+		StoreView storeView = new StoreView(storeModel);
 		
 	}
 
