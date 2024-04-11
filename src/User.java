@@ -2,10 +2,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User {
-    private double balance;
     
+    private double balance;
     private Computer computer;
-    PartInventory partInventory = new PartInventory();
+    private PartInventory partInventory = new PartInventory();
+    
+    public User() {
+    
+    }
     
     public double getBalance() {
         return balance;
@@ -13,6 +17,10 @@ public class User {
     
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+    
+    public PartInventory getInventory() {
+        return partInventory;
     }
     
 }
