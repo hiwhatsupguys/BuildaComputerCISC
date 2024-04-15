@@ -15,6 +15,7 @@ public class Controller implements ActionListener
 	{
 		this.model = model;
 		this.store = view;
+		//haha
 	}
 	
 	/**
