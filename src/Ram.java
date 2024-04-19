@@ -6,7 +6,7 @@
  */
 
 // RAM is a Part
-public class RAM extends Part
+public class Ram extends Part
 {
 	// RAM has memory
 	private int memory;
@@ -19,7 +19,7 @@ public class RAM extends Part
 	 * @param year
 	 * @param memory
 	 */
-	public RAM(String name, String manufacturer, double price, int year, int memory)
+	public Ram(String name, String manufacturer, double price, int year, int memory)
 	{
 		super(name, manufacturer, price, year);
 		this.memory = memory;

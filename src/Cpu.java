@@ -1,7 +1,7 @@
 
 
 // a CPU is a Part
-public class CPU extends Part implements Processor
+public class Cpu extends Part implements Processor
 {
 	// a CPU has a clock speed 
 	private int clockSpeedMhz;
@@ -10,7 +10,7 @@ public class CPU extends Part implements Processor
 	 * Constructor
 	 * @param clockSpeed
 	 */
-	public CPU(String name, String manufacturer, double price, int year, int clockSpeed)
+	public Cpu(String name, String manufacturer, double price, int year, int clockSpeed)
 	{
 		super(name, manufacturer, price, year);
 		this.clockSpeedMhz = clockSpeed;

@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class PartInventory extends HashMap<Part, Integer> {
     
-    GPU RX7800XT = new GPU(
+    Gpu RX7800XT = new Gpu(
             "RX 7800 XT", "AMD",
             529.99, 2023,
             2430, 16);
