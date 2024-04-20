@@ -1,4 +1,10 @@
-
+/**
+ * Lead Author(s):
+ * @author Anthony Bazalaki, Elias Zarate
+ * 
+ * Class Responsibilities:
+ * 
+ */
 
 // a CPU is a Part
 public class Cpu extends Part implements Processor

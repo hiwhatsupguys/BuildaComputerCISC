@@ -2,6 +2,14 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
+/**
+ * Lead Author(s):
+ * @author Anthony Bazalaki, Elias Zarate
+ * 
+ * Class Responsibilities:
+ * 
+ */
+
 public class StoreView extends JFrame {
     private JPanel storePanel;
     private JPanel pickPartPanel;

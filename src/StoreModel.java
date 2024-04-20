@@ -1,14 +1,24 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Lead Author(s):
+ * @author Anthony Bazalaki, Elias Zarate
+ * 
+ * Class Responsibilities:
+ * 
+ */
+
 public class StoreModel {
     
     // list of parts
-//    private HashMap<Part, Integer> inventory = new HashMap<>();
+	// private HashMap<Part, Integer> inventory = new HashMap<>();
     private PartInventory partInventory = new PartInventory();
     // number of total types of parts
-//    private int numberOfPartTypes;
+    // private int numberOfPartTypes;
+    // A store has a user (consider changing this to customer instead)
     private User user;
+    
     private final int initialBalance = 2000;
     
     public StoreModel() {

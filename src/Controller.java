@@ -1,10 +1,22 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Lead Author(s):
+ * @author Anthony Bazalaki, Elias Zarate
+ * 
+ * Class Responsibilities:
+ * 
+ */
+
+// controller is an Action Listener
 public class Controller implements ActionListener
 {
+	// the controller...
+	// has a model
 	private StoreModel model;
-	private StoreView store;
+	// has a view
+	private StoreView view;
 	
 	/**
 	 * Constructor for Controller class
@@ -14,8 +26,7 @@ public class Controller implements ActionListener
 	public Controller(StoreModel model, StoreView view)
 	{
 		this.model = model;
-		this.store = view;
-		//haha
+		this.view = view;
 	}
 	
 	/**
