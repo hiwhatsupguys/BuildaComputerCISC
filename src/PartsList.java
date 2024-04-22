@@ -5,7 +5,7 @@
 // shop, not the item
 //import java.util.ArrayList;
 //
-//public class PartsList extends ArrayList<Parts.Part> {
+//public class PartsList extends ArrayList<Part> {
 //
 //
 //}
