@@ -10,7 +10,7 @@ public class PartInventory {
     
     private int numberOfPartTypes;
     private HashMap<String, HashMap<Part, Integer>> inventory;
-    private final GPU RX7800XT = new GPU(
+    private final Gpu RX7800XT = new Gpu(
             "RX 7800 XT", "AMD",
             529.99, 2023,
             2430, 16);
