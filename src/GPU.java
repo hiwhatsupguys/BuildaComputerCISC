@@ -7,7 +7,7 @@ public class GPU extends Part implements Processor {
         super(name, manufacturer, price, year);
         this.clockSpeedMHz = clockSpeedGHz;
         this.memoryGB = memoryGB;
-        setType("Parts.GPU");
+        setType("GPU");
     }
     
     @Override
