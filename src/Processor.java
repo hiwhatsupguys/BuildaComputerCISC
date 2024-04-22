@@ -1,3 +1,9 @@
 public interface Processor {
-    int getClockSpeedMHz();
+    
+	/**
+	 * OverClock the Computer Part
+	 * @return clockSpeedMhz
+	 */
+	
+	int getClockSpeedMHz();
 }

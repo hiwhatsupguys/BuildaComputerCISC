@@ -1,3 +1,6 @@
+
+// a GPU is a Part
+// a GPU can Process
 public class Gpu extends Part implements Processor {
     private int clockSpeedMHz;
     private int memoryGB;
