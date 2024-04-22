@@ -1,11 +1,9 @@
-import Parts.GPU;
-
 import java.util.HashMap;
 // import the parts package in src
-import Parts.*;
+
 
 // String: its part type name, e.g. Parts.GPU
-// Parts.Part: the specific type of part, e.g. RX7800XT
+// Part: the specific type of part, e.g. RX7800XT
 // Integer: how many of the part there is
 // the partInventory class is responsible for keeping track of the store's inventory.
 public class PartInventory {

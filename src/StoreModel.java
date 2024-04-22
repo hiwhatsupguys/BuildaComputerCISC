@@ -1,5 +1,3 @@
-import Parts.Part;
-
 public class StoreModel {
     
     private PartInventory partInventory = new PartInventory();
@@ -33,7 +31,7 @@ public class StoreModel {
         }
     }
 //
-//    public void sell(Parts.Part part) {
+//    public void sell(Part part) {
 //        double price = part.getPrice();
 //
 //    }

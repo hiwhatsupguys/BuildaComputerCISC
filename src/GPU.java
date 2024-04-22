@@ -1,5 +1,3 @@
-package Parts;
-
 public class GPU extends Part implements Processor {
     private int clockSpeedMHz;
     private int memoryGB;
