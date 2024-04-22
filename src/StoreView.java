@@ -1,6 +1,9 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class StoreView extends JFrame {
     private JPanel storePanel;
@@ -24,6 +27,7 @@ public class StoreView extends JFrame {
         panelColor = Color.darkGray;
         WIDTH = 800;
         HEIGHT = 450;
+        PartInventory partInventory = storeModel.getPartInventory();
         
         setTitle("Build a Computer");
         setSize(WIDTH, HEIGHT);
@@ -44,9 +48,19 @@ public class StoreView extends JFrame {
         
         // partSelectButtons
         
-        // buttonsPanel
+        // @TODO buttonsPanel
         buttonsPanel = new JPanel();
+        // testing
+        buttonsPanel.setBackground(Color.green);
         
+        // add the part types to the button panel
+        buttonsPanel.setLayout(new GridLayout());
+//        buttonsPanel.setPreferredSize(new Dimension(100, 100));
+//        System.out.println(Arrays.toString(partInventory.getPartTypes()));
+        for (String partType : partInventory.getPartTypes()){
+            JButton button = new JButton(partType);
+            buttonsPanel.add(button);
+        }
         
         // pickPartPanel
         pickPartPanel = new JPanel();
@@ -60,8 +74,8 @@ public class StoreView extends JFrame {
 //        pickPartLabel.setVerticalAlignment(SwingConstants.CENTER);
         pickPartLabel.setFont(new Font("Verdana", Font.PLAIN, 20));
         pickPartLabel.setForeground(textColor);
-        pickPartPanel.add(buttonsPanel, BorderLayout.CENTER);
         pickPartPanel.add(pickPartLabel, BorderLayout.NORTH);
+        pickPartPanel.add(buttonsPanel, BorderLayout.CENTER);
         
         // specsPanel
         specsPanel = new JPanel();

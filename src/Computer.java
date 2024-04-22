@@ -1,3 +1,5 @@
+import Parts.Part;
+
 import java.util.ArrayList;
 
 public class Computer {

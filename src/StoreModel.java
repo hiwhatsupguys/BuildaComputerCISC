@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
+import Parts.Part;
 
 public class StoreModel {
     
@@ -12,6 +11,9 @@ public class StoreModel {
         user.setBalance(initialBalance);
     }
     
+    public PartInventory getPartInventory() {
+        return partInventory;
+    }
     
     /**
      * buy the part if there is enough in stock and the user's balance is sufficient
@@ -31,7 +33,7 @@ public class StoreModel {
         }
     }
 //
-//    public void sell(Part part) {
+//    public void sell(Parts.Part part) {
 //        double price = part.getPrice();
 //
 //    }
