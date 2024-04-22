@@ -8,6 +8,7 @@ public class GPU extends Part implements Processor {
         this.clockSpeedMHz = clockSpeedGHz;
         this.memoryGB = memoryGB;
         setType("GPU");
+        //
     }
     
     @Override
