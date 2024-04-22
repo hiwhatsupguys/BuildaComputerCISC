@@ -14,7 +14,7 @@ public class User {
     // a User has a computer
     private Computer computer;
     // is this needed in User?
-    PartInventory partInventory = new PartInventory();
+    // the user could have a separate inventory of parts, for example, if they want to swap parts
     private PartInventory partInventory = new PartInventory();
     
     public User() {

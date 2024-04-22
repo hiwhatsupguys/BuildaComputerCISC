@@ -1,6 +1,4 @@
 public class StoreModel {
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Lead Author(s):
