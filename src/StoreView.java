@@ -141,6 +141,7 @@ public class StoreView extends JFrame {
     
     public JButton[] getPartSelectButtons() {
         return partSelectButtons;
+        //
     }
 
 
