@@ -10,16 +10,16 @@
 public class Cpu extends Part implements Processor
 {
 	// a CPU has a clock speed 
-	private int clockSpeedMhz;
+	private int clockSpeedMHz;
 	
 	/**
 	 * Constructor
-	 * @param clockSpeed
+	 * @param clockSpeedMHz
 	 */
-	public Cpu(String name, String manufacturer, double price, int year, int clockSpeed)
+	public Cpu(String name, String manufacturer, double price, int year, int clockSpeedMHz)
 	{
 		super(name, manufacturer, price, year);
-		this.clockSpeedMhz = clockSpeed;
+		this.clockSpeedMHz = clockSpeedMHz;
 		setType("CPU");
 	}
 
@@ -31,7 +31,7 @@ public class Cpu extends Part implements Processor
 	@Override
 	public int getClockSpeedMHz()
 	{
-		return clockSpeedMhz;
+		return clockSpeedMHz;
 	}
 
 	

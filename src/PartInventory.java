@@ -10,14 +10,20 @@ public class PartInventory {
     
     private int numberOfPartTypes;
     private HashMap<String, HashMap<Part, Integer>> inventory;
+    
     private final Gpu RX7800XT = new Gpu(
             "RX 7800 XT", "AMD",
             529.99, 2023,
             2430, 16);
+    private final Cpu R77800X3D = new Cpu(
+            "Ryzen 7 7800X3D", "AMD",
+            382.11, 2023,
+            4200);
     
     public PartInventory() {
         inventory = new HashMap<String, HashMap<Part, Integer>>();
         addPart(RX7800XT);
+        addPart(R77800X3D);
         numberOfPartTypes = inventory.size();
     }
     
@@ -27,6 +33,7 @@ public class PartInventory {
     
     /**
      * gets the number of the types of parts, e.g. Motherboard, Parts.GPU, CPU, etc.
+     *
      * @return numberOfPartTypes
      */
     public int getNumberOfPartTypes() {
@@ -42,7 +49,7 @@ public class PartInventory {
      */
     public int getPartCount(Part part) {
         String partType = part.getType();
-        // if the partType (e.g. "Parts.GPU") is not there, return 0
+        // if the partType (e.g. "GPU") is not there, return 0
         if (!inventory.containsKey(partType)) return 0;
         
         // if it is there, get the part-count hashmap
@@ -94,5 +101,11 @@ public class PartInventory {
         } else {
             //@TODO maybe throw exception?
         }
+    }
+    
+    public Part[] getPartsOfType(String partType) {
+        HashMap<Part, Integer> partMap = inventory.get(partType);
+        Part[] parts = partMap.keySet().toArray(new Part[0]);
+        return parts;
     }
 }

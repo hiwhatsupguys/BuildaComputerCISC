@@ -1,31 +1,35 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Lead Author(s):
+ *
  * @author Anthony Bazalaki, Elias Zarate
- * 
+ * <p>
  * Class Responsibilities:
- * 
  */
 
 public class StoreView extends JFrame {
     private JPanel storePanel;
-    private JPanel pickPartPanel;
+    private JPanel pickPartTypePanel;
     private JPanel specsPanel;
     private JPanel buttonsPanel;
     private Border panelBorder;
     private final Color textColor;
     private final Color borderColor;
     private final Color panelColor;
-    private JButton[][] partSelectButtons;
+    private JButton[] partSelectButtons;
     private int WIDTH;
     private int HEIGHT;
     private StoreModel storeModel;
+    private Controller controller;
+    private PartInventory partInventory;
+    private String[] partTypes;
+    private int numberOfPartTypes;
+    private JComboBox partSelectComboBox;
     
     public StoreView(StoreModel storeModel) {
         // initializations
@@ -35,7 +39,12 @@ public class StoreView extends JFrame {
         panelColor = Color.darkGray;
         WIDTH = 800;
         HEIGHT = 450;
-        PartInventory partInventory = storeModel.getPartInventory();
+        partInventory = storeModel.getPartInventory();
+        controller = new Controller(storeModel, this);
+        partTypes = partInventory.getPartTypes();
+        numberOfPartTypes = partInventory.getNumberOfPartTypes();
+        partSelectButtons = new JButton[numberOfPartTypes];
+        partSelectComboBox = new JComboBox();
         
         setTitle("Build a Computer");
         setSize(WIDTH, HEIGHT);
@@ -61,39 +70,47 @@ public class StoreView extends JFrame {
         // testing
         buttonsPanel.setBackground(Color.green);
         
-        // add the part types to the button panel
+        // add the buttons with part types to the button panel
         buttonsPanel.setLayout(new GridLayout());
 //        buttonsPanel.setPreferredSize(new Dimension(100, 100));
 //        System.out.println(Arrays.toString(partInventory.getPartTypes()));
-        for (String partType : partInventory.getPartTypes()){
-            JButton button = new JButton(partType);
+        for (int i = 0; i < numberOfPartTypes; i++) {
+            JButton button = new JButton(partTypes[i]);
+            button.addActionListener(controller);
             buttonsPanel.add(button);
+            partSelectButtons[i] = button;
         }
+
+//        for (String partType : partInventory.getPartTypes()) {
+//            JButton button = new JButton(partType);
+//            button.addActionListener(controller);
+//            buttonsPanel.add(button);
+//        }
         
         // pickPartPanel
-        pickPartPanel = new JPanel();
-        pickPartPanel.setLayout(new BorderLayout());
-        pickPartPanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
-        pickPartPanel.setBackground(panelColor);
-        pickPartPanel.setBorder(panelBorder);
+        pickPartTypePanel = new JPanel();
+        pickPartTypePanel.setLayout(new BorderLayout());
+        pickPartTypePanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
+        pickPartTypePanel.setBackground(panelColor);
+        pickPartTypePanel.setBorder(panelBorder);
         // make JLabel, set text and center it
         JLabel pickPartLabel = new JLabel("Select a type of part to buy", SwingConstants.CENTER);
         // centers text, optional
 //        pickPartLabel.setVerticalAlignment(SwingConstants.CENTER);
         pickPartLabel.setFont(new Font("Verdana", Font.PLAIN, 20));
         pickPartLabel.setForeground(textColor);
-        pickPartPanel.add(pickPartLabel, BorderLayout.NORTH);
-        pickPartPanel.add(buttonsPanel, BorderLayout.CENTER);
+        pickPartTypePanel.add(pickPartLabel, BorderLayout.NORTH);
+        pickPartTypePanel.add(buttonsPanel, BorderLayout.CENTER);
         
         // specsPanel
         specsPanel = new JPanel();
-        storePanel.setLayout(new BorderLayout());
+        specsPanel.setLayout(new BorderLayout());
         specsPanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
         specsPanel.setBorder(panelBorder);
         specsPanel.setBackground(panelColor);
         
         // add panels to frame
-        storePanel.add(pickPartPanel, BorderLayout.WEST);
+        storePanel.add(pickPartTypePanel, BorderLayout.WEST);
         storePanel.add(specsPanel, BorderLayout.EAST);
         
         add(storePanel);
@@ -101,9 +118,34 @@ public class StoreView extends JFrame {
         
     }
     
-    
-    public void update() {
-    
+    public void showSpecsPanel(String partType) {
+        // removes all components from specsPanel
+        specsPanel.removeAll();
+        Part[] partsOfType = partInventory.getPartsOfType(partType);
+        String[] namesOfParts = new String[partsOfType.length];
+        
+        // store the names of the parts of specific type to the namesOfParts variable
+        for (int i = 0; i < partsOfType.length; i++) {
+            namesOfParts[i] = partsOfType[i].getName();
+        }
+        
+        partSelectComboBox = new JComboBox(namesOfParts);
+//        partSelectComboBox.setPreferredSize(new Dimension(200, 50));
+        specsPanel.add(partSelectComboBox, BorderLayout.NORTH);
+        // need to call this method to show new components on already visible panel, see this link:
+        // https://stackoverflow.com/questions/26853598/jpanel-not-showing-components
+        specsPanel.revalidate();
+//        specsPanel.repaint();
+        specsPanel.setVisible(true);
     }
+    
+    public JButton[] getPartSelectButtons() {
+        return partSelectButtons;
+    }
+
+
+//    public void update() {
+//
+//    }
     
 }
