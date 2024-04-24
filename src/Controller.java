@@ -18,6 +18,9 @@ public class Controller implements ActionListener {
     // has a view
     private StoreView view;
     private JButton[] partSelectButtons;
+    private JButton buyButton;
+    private JButton sellButton;
+    
     
     /**
      * Constructor for Controller class
@@ -39,15 +42,25 @@ public class Controller implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         partSelectButtons = view.getPartSelectButtons();
+        buyButton = view.getBuyButton();
+        sellButton = view.getSellButton();
         // loop over all part select buttons
-//        System.out.println(partSelectButtons);
         for (int i = 0; i < partSelectButtons.length; i++) {
             JButton currentButton = partSelectButtons[i];
+            // if the source comes from the button that says "GPU, CPU, etc."
             if (e.getSource() == currentButton) {
                 String partType = currentButton.getText();
+                // show the corresponding part types in the specs panel
                 view.showSpecsPanel(partType);
-//                System.out.println(partType);
             }
+        }
+        // check if from buyButton
+        if (e.getSource() == buyButton) {
+            System.out.println("buy!");
+        }
+        // check if from sellButton
+        if (e.getSource() == sellButton) {
+            System.out.println("sell!");
         }
     }
 }
