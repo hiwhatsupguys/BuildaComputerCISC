@@ -6,16 +6,18 @@ public class Gpu extends Part implements Processor {
     private int memoryGB;
     
     
-    public Gpu(String name, String manufacturer, double price, int year, int clockSpeedGHz, int memoryGB) {
+    public Gpu(String name, String manufacturer, double price, int year, int clockSpeedMHz, int memoryGB) {
         super(name, manufacturer, price, year);
-        this.clockSpeedMHz = clockSpeedGHz;
+        this.clockSpeedMHz = clockSpeedMHz;
         this.memoryGB = memoryGB;
         setType("GPU");
     }
     
     @Override
-    protected String getInfo() {
-        return "";
+    public String getInfo() {
+        String info = super.getInfo();
+        info += "\nClock Speed (MHz): " + clockSpeedMHz + "\nMemory (GB): " + memoryGB;
+        return info;
     }
     
     @Override
