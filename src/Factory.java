@@ -5,40 +5,52 @@ import java.util.Scanner;
 
 public class Factory
 {
-	public static List<Part> readPartsFromFile(String fileName) 
+	
+	
+	public static List<String> readPartsFromFile(String fileName)
 	{
-		List<Part> parts = null;
+		List<String> parts = null;
+	
 		File file;
-		Scanner sc;
+	
+		Scanner sc = null;
 		
 		try
 		{
-			//open the file
+
+			// open the file
 			file = new File(fileName);
 			sc = new Scanner(file);
-			
-			switch(sc.nextLine())
+			while (sc.useDelimiter(",") != null)
 			{
-				case 1:
+				String testScanner1 = "";
+				switch (testScanner1)
+				{
+					case "": 
+						testScanner1 += sc.nextLine();
+						System.out.println(testScanner1);
+						break;
+					default:
+						System.out.print("Nothing was scanned");
+						break;
+				}
 			}
-			
-			
+
 			// use the scanner.useDelimiter method
 		}
-		catch(FileNotFoundException e)
+		catch (FileNotFoundException e)
 		{
 			// in the event something goes wrong
 			System.out.println(e);
 		}
 		finally
 		{
-			//close the file
-			
+			// close the file
+			sc.close();
 		}
-		
-		return part;
+		return parts;
 	}
-	
+
 	public static void savePartsToFile(List<Part> partsList)
 	{
 		try
@@ -46,7 +58,7 @@ public class Factory
 			// open the file...
 			
 		}
-		catch()
+		catch(FileNotFoundException e)
 		{
 			// in the event something goes wrong
 		}
@@ -56,4 +68,7 @@ public class Factory
 		}
 	}
 
+	public static void main(String[] args) {
+		readPartsFromFile("C:\\Users\\Elias Zarate\\Downloads\\InventoryFiles\\GpuInventory.csv");
+	}
 }
