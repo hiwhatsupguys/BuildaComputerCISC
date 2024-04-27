@@ -34,12 +34,15 @@ public class Factory
 						System.out.print("Nothing was scanned");
 						break;
 				}
+				
+				
 			}
 
 			// use the scanner.useDelimiter method
 		}
 		catch (FileNotFoundException e)
 		{
+			
 			// in the event something goes wrong
 			System.out.println(e);
 		}
@@ -69,6 +72,6 @@ public class Factory
 	}
 
 	public static void main(String[] args) {
-		readPartsFromFile("C:\\Users\\Elias Zarate\\Downloads\\InventoryFiles\\GpuInventory.csv");
+		readPartsFromFile("src/GpuInventory.csv");
 	}
 }
