@@ -36,6 +36,11 @@ public class StoreView extends JFrame {
     private Part currentPart;
     
     public StoreView(StoreModel storeModel) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // initializations
         this.storeModel = storeModel;
         textColor = Color.white;
