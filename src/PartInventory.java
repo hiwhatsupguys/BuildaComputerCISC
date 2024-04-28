@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.ArrayList;
 // import the parts package in src
 
 
@@ -26,6 +27,18 @@ public class PartInventory {
         addPart(R77800X3D);
         numberOfPartTypes = inventory.size();
     }
+    
+    /**
+     * create one or more parts based on the file that creates it, and then adds it to the inventory
+     * @param
+     */
+//    public void buildParts() {
+//        // partType + Inventory, e.g. "Gpu" + "Inventory"
+//        // a list of parts to be in here
+//        String type = part.getType();
+//        ArrayList<Part> partList = PartFactory.readPartsFromFile(type + "Inventory");
+//
+//    }
     
     public String[] getPartTypes() {
         return inventory.keySet().toArray(new String[0]);

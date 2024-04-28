@@ -38,8 +38,9 @@ public class Cpu extends Part implements Processor
 	@Override
 	protected String getInfo()
 	{
-		// TODO Auto-generated method stub (implement the info)
-		return "";
+		String info = super.getInfo();
+		info += "\nClock Speed (MHz): " + clockSpeedMHz;
+		return info;
 	}
 
 }
