@@ -10,29 +10,54 @@ import java.awt.*;
  * Class Responsibilities:
  */
 
+// Store view is a JFrame
 public class StoreView extends JFrame {
+	// A StoreView has...
+	// a JPanel storePanel
     private JPanel storePanel;
+    // a JPanel pickPartTypePanel
     private JPanel pickPartTypePanel;
+    // a JPanel specsPanel
     private JPanel specsPanel;
+    // a JPanel partSelectButtonsPanel
     private JPanel partSelectButtonsPanel;
+    // a JPanel buySellButtonsPanel
     private JPanel buySellButtonsPanel;
+    // a JPanel partInforPanel
     private JPanel partInfoPanel;
+    // a Border panelBorder
     private Border panelBorder;
+    // a Color textColor that is final
     private final Color textColor;
+    // a Color borderColor that is final
     private final Color borderColor;
+    // a Color panelColor that is final
     private final Color panelColor;
+    // a Array of JButons partSelectButtons
     private JButton[] partSelectButtons;
+    // a Width
     private int WIDTH;
+    // a Height
     private int HEIGHT;
+    // a StoreModel storeModel
     private StoreModel storeModel;
+    // a Controller controller
     private Controller controller;
+    // a PartInventory partInventory
     private PartInventory partInventory;
+    // an Array of strings partTypes
     private String[] partTypes;
+    // a number of part types
     private int numberOfPartTypes;
+    // a JComboBox partSelectComboBox
     private JComboBox partSelectComboBox;
+    // a JButton buyButton (for buying things in the store)
     private JButton buyButton;
+    // a JButton sellButton (for selling things to the store/returning items that the user may not want)
     private JButton sellButton;
+    // a JLable partInforLable
     private JLabel partInfoLabel;
+    // a Part currentPart
     private Part currentPart;
     
     public StoreView(StoreModel storeModel) {
