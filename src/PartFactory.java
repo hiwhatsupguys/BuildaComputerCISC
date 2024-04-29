@@ -1,18 +1,69 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class PartFactory {
     
+    private static final File partsListFile = new File("src/Inventory.csv");
+    
     public static void main(String[] args) {
-       makePartsFromList("src/GpuInventory.csv");
+//        makePartsFromList("src/Inventory.csv");
+        try {
+            ArrayList<Part> partsList = makePartsFromFile(partsListFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     /**
+     * testing, i have an idea Anthony B.
+     * update: IT WORKS
+     * this could be the highlight of this class
+     *
+     * @param file
+     * @return
+     * @throws FileNotFoundException
+     */
+    public static ArrayList<Part> makePartsFromFile(File file) throws FileNotFoundException {
+        ArrayList<Part> partsList = new ArrayList<>();
+        Scanner scanner = new Scanner(file);
+        String[] parameters;
+        int i = 0;
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            parameters = line.split(",");
+            String partType = parameters[0];
+            String name = parameters[1];
+            String manufacturer = parameters[2];
+            double price = Double.parseDouble(parameters[3]);
+            int year = Integer.parseInt(parameters[4]);
+            switch (partType) {
+                case "GPU":
+                    GPU gpu = new GPU(parameters);
+                    partsList.add(gpu);
+                    break;
+                case "CPU":
+                    CPU cpu = new CPU(parameters);
+                    partsList.add(cpu);
+                    break;
+                // etc.
+            }
+            // VV uncomment to prove it works
+            System.out.println(partsList.get(i).getInfo());
+            i++;
+        }
+        return null;
+    }
+
+//    public static GPU makeGPUFromFile() {
+//        return new GPU();
+//    }
+    
+    /**
      * gets the information string from readPartsFromFile, and returns the
+     *
      * @param fileName
      * @return part array
      */
@@ -24,12 +75,13 @@ public class PartFactory {
             case "GPU":
 //                Part part = new Gpu();
                 //
-                    break;
+                break;
             
         }
-        Part partName = new Gpu(partInfoStringArray.get(0), "AMD",529.99, 2023, 2430, 16);
+        Part partName = new GPU(partInfoStringArray.get(0), "AMD", 529.99, 2023, 2430, 16);
         return null;
     }
+    
     
     private static ArrayList<String> readPartsFromFile(String fileName) {
         ArrayList<String> parts = new ArrayList<>();
@@ -72,10 +124,9 @@ public class PartFactory {
         } finally {
             // close the file
             System.out.println(parts);
-            if(sc0 != null && sc1 != null)
-            {
-            sc0.close();
-            sc1.close();
+            if (sc0 != null && sc1 != null) {
+                sc0.close();
+                sc1.close();
             }
         }
         return parts;
