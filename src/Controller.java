@@ -1,3 +1,4 @@
+import javax.net.ssl.KeyStoreBuilderParameters;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,8 @@ public class Controller implements ActionListener {
     private JButton[] partSelectButtons;
     private JButton buyButton;
     private JButton sellButton;
+    private JButton storeButton;
+    private JButton homeButton;
     
     
     /**
@@ -44,6 +47,8 @@ public class Controller implements ActionListener {
         partSelectButtons = view.getPartSelectButtons();
         buyButton = view.getBuyButton();
         sellButton = view.getSellButton();
+        storeButton = view.getStoreButton();
+        homeButton = view.getHomeButton();
         // loop over all part select buttons
         for (int i = 0; i < partSelectButtons.length; i++) {
             JButton currentButton = partSelectButtons[i];
@@ -60,6 +65,14 @@ public class Controller implements ActionListener {
         }
         // check if from sellButton
         if (e.getSource() == sellButton) {
+            System.out.println("sell!");
+        }
+        // check if from storeButton
+        if (e.getSource() == storeButton) {
+            view.setCurrentPanel(view.getStorePanel());
+        }
+        // check if from homeButton
+        if (e.getSource() == homeButton) {
             System.out.println("sell!");
         }
     }

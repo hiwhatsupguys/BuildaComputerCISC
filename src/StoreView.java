@@ -12,9 +12,14 @@ import java.awt.*;
 
 // Store view is a JFrame
 public class StoreView extends JFrame {
-	// A StoreView has...
-	// a JPanel storePanel
+    // A StoreView has...
+    private JPanel mainPanel;
+    // a JPanel currentPanel
+    private JPanel currentPanel;
+    // a JPanel storePanel
     private JPanel storePanel;
+    // a JPanel homePanel
+    private JPanel homePanel;
     // a JPanel pickPartTypePanel
     private JPanel pickPartTypePanel;
     // a JPanel specsPanel
@@ -23,8 +28,10 @@ public class StoreView extends JFrame {
     private JPanel partSelectButtonsPanel;
     // a JPanel buySellButtonsPanel
     private JPanel buySellButtonsPanel;
-    // a JPanel partInforPanel
+    // a JPanel partInfoPanel
     private JPanel partInfoPanel;
+    // a JPanel switchTabPanel
+    private JPanel switchTabPanel;
     // a Border panelBorder
     private Border panelBorder;
     // a Color textColor that is final
@@ -55,10 +62,15 @@ public class StoreView extends JFrame {
     private JButton buyButton;
     // a JButton sellButton (for selling things to the store/returning items that the user may not want)
     private JButton sellButton;
+    // a JButton storeTabButton
+    private JButton storeButton;
+    // a JButton homeTabButton
+    private JButton homeButton;
     // a JLable partInforLable
     private JLabel partInfoLabel;
     // a Part currentPart
     private Part currentPart;
+    private int storePanelHeight;
     
     public StoreView(StoreModel storeModel) {
         try {
@@ -91,10 +103,17 @@ public class StoreView extends JFrame {
         // border (color and thickness)
         panelBorder = BorderFactory.createLineBorder(borderColor, 4);
         
+        
+        // mainPanel
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        
         // storePanel
         storePanel = new JPanel();
         storePanel.setLayout(new BorderLayout());
-        storePanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        storePanelHeight = (int) (HEIGHT * 0.92);
+        storePanel.setPreferredSize(new Dimension(WIDTH, storePanelHeight));
 //        storePanel.setBackground(Color.white);
         
         // partSelectButtons
@@ -107,17 +126,18 @@ public class StoreView extends JFrame {
         // add the buttons with part types to the button panel
         GridLayout gridLayout = new GridLayout();
         // we might want to set rows and columns
-//        gridLayout.setRows();
-//        gridLayout.setColumns();
+//        gridLayout.setRows(3);
+//        gridLayout.setColumns(3);
         int gap = WIDTH / 100;
         gridLayout.setHgap(gap);
         gridLayout.setVgap(gap);
-        partSelectButtonsPanel.setLayout(gridLayout);
+        partSelectButtonsPanel.setLayout(new FlowLayout());
 //        buttonsPanel.setPreferredSize(new Dimension(100, 100));
 //        System.out.println(Arrays.toString(partInventory.getPartTypes()));
         for (int i = 0; i < numberOfPartTypes; i++) {
             JButton button = new JButton(partTypes[i]);
             button.addActionListener(controller);
+            button.setPreferredSize(new Dimension(100, 100));
             partSelectButtonsPanel.add(button);
             partSelectButtons[i] = button;
         }
@@ -131,7 +151,7 @@ public class StoreView extends JFrame {
         // pickPartPanel
         pickPartTypePanel = new JPanel();
         pickPartTypePanel.setLayout(new BorderLayout());
-        pickPartTypePanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
+        pickPartTypePanel.setPreferredSize(new Dimension(WIDTH / 2, storePanelHeight));
         pickPartTypePanel.setBackground(panelColor);
         pickPartTypePanel.setBorder(panelBorder);
         // make JLabel, set text and center it
@@ -146,16 +166,19 @@ public class StoreView extends JFrame {
         // specsPanel
         specsPanel = new JPanel();
         specsPanel.setLayout(new BorderLayout());
-        specsPanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
+        specsPanel.setPreferredSize(new Dimension(WIDTH / 2, storePanelHeight));
         specsPanel.setBorder(panelBorder);
         specsPanel.setBackground(panelColor);
         
         // part info
         partInfoLabel = new JLabel("", SwingConstants.LEFT);
+        partInfoLabel.setFont(new Font("Verdana", Font.PLAIN, 25));
         partInfoPanel = new JPanel();
-        partInfoPanel.setLayout(new BorderLayout());
+        FlowLayout partInfoPanelLayout = new FlowLayout();
+        partInfoPanelLayout.setAlignment(FlowLayout.LEFT);
+        partInfoPanel.setLayout(partInfoPanelLayout);
 //        partInfoPanel.setOpaque(false);
-        partInfoPanel.add(partInfoLabel, BorderLayout.WEST);
+        partInfoPanel.add(partInfoLabel);
         
         // buy/sell buttons
         buyButton = new JButton("Buy");
@@ -165,12 +188,31 @@ public class StoreView extends JFrame {
 //        buyButton.setVisible(false);
 //        sellButton.setVisible(false);
         
+        // switchTabPanel
+        switchTabPanel = new JPanel();
+        int switchTabPanelHeight = HEIGHT - storePanelHeight;
+        switchTabPanel.setPreferredSize(new Dimension(WIDTH, switchTabPanelHeight));
+        FlowLayout switchTabLayout = new FlowLayout();
+        switchTabLayout.setAlignment(FlowLayout.LEFT);
+        switchTabPanel.setLayout(switchTabLayout);
+        storeButton = new JButton("Store");
+        homeButton = new JButton("Home");
+        storeButton.addActionListener(controller);
+        homeButton.addActionListener(controller);
+        switchTabPanel.add(storeButton);
+        switchTabPanel.add(homeButton);
+        
         // add panels to frame
-        storePanel.add(pickPartTypePanel, BorderLayout.WEST);
+        storePanel.add(pickPartTypePanel, BorderLayout.CENTER);
         storePanel.add(specsPanel, BorderLayout.EAST);
         
-        add(storePanel);
+        mainPanel.add(storePanel, BorderLayout.CENTER);
+        mainPanel.add(switchTabPanel, BorderLayout.NORTH);
+        add(mainPanel);
         setVisible(true);
+        
+        // currentPanel
+        currentPanel = storePanel;
         
     }
     
@@ -190,7 +232,10 @@ public class StoreView extends JFrame {
 //        partSelectComboBox = new JComboBox(namesOfParts);
         partSelectComboBox = new JComboBox(partsOfType);
         Part currentPart = (Part) partSelectComboBox.getSelectedItem();
-        partInfoLabel.setText(currentPart.getInfo());
+        String info = currentPart.getInfo();
+        info = "<html>" + info + "</html>";
+        info = info.replace(",\n", "<br/>");
+        partInfoLabel.setText(info);
         
         specsPanel.add(partSelectComboBox, BorderLayout.NORTH);
         specsPanel.add(buySellButtonsPanel, BorderLayout.SOUTH);
@@ -201,6 +246,26 @@ public class StoreView extends JFrame {
         specsPanel.revalidate();
 //        specsPanel.repaint();
         specsPanel.setVisible(true);
+    }
+    
+    public JPanel getStorePanel() {
+        return storePanel;
+    }
+    
+    public JPanel getHomePanel() {
+        return homePanel;
+    }
+    
+    public JPanel getCurrentPanel() {
+        return currentPanel;
+    }
+    
+    public void setCurrentPanel(JPanel newPanel) {
+        // don't do anything if the newPanel is already the currentPanel
+        if (newPanel == currentPanel) return;
+        currentPanel.setVisible(false);
+        currentPanel = newPanel;
+        currentPanel.setVisible(true);
     }
     
     public JButton[] getPartSelectButtons() {
@@ -214,10 +279,17 @@ public class StoreView extends JFrame {
     public JButton getSellButton() {
         return sellButton;
     }
-
-
-//    public void update() {
-//
-//    }
+    
+    public JButton getStoreButton() {
+        return storeButton;
+    }
+    
+    public JButton getHomeButton() {
+        return homeButton;
+    }
+    
+    private void setupStorePanel() {
+    
+    }
     
 }

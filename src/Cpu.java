@@ -39,7 +39,7 @@ public class Cpu extends Part implements Processor
 	protected String getInfo()
 	{
 		String info = super.getInfo();
-		info += "\nClock Speed (MHz): " + clockSpeedMHz;
+		info += ",\nClock Speed (MHz): " + clockSpeedMHz;
 		return info;
 	}
 

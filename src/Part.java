@@ -38,8 +38,8 @@ public abstract class Part {
         this.manufacturer = manufacturer;
         this.price = price;
         this.year = year;
-        info = "Name: " + this.name + "\nManufacturer: " + this.manufacturer + "\nPrice: "
-                + this.price + "\nYear: " + this.year;
+        info = "Name: " + this.name + ",\nManufacturer: " + this.manufacturer + ",\nPrice: "
+                + this.price + ",\nYear: " + this.year;
     }
     
     public double getPrice() {
