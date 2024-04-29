@@ -42,6 +42,8 @@ public abstract class Part {
                 + this.price + ",\nYear: " + this.year;
     }
     
+    // public Part(ArrayList<String> parameters)
+    
     public double getPrice() {
         return price;
     }
