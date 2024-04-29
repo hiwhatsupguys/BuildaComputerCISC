@@ -41,8 +41,21 @@ public abstract class Part {
         info = "Name: " + this.name + ",\nManufacturer: " + this.manufacturer + ",\nPrice: "
                 + this.price + ",\nYear: " + this.year;
     }
-    
-    // public Part(ArrayList<String> parameters)
+
+    /**
+     * this makes everything infinitely easier for partFactory, see new GPU constructor in GPU class
+     * @param parameters
+     */
+    public Part(String[] parameters) {
+        this.type = parameters[0];
+        this.name = parameters[1];
+        this.manufacturer = parameters[2];
+        this.price = Double.parseDouble(parameters[3]);
+        this.year = Integer.parseInt(parameters[4]);
+        info = "Name: " + this.name + ",\nManufacturer: " + this.manufacturer + ",\nPrice: "
+                + this.price + ",\nYear: " + this.year;
+    }
+
     
     public double getPrice() {
         return price;

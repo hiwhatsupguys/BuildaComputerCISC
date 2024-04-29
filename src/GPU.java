@@ -1,18 +1,29 @@
 
 // a GPU is a Part
 // a GPU can Process
-public class Gpu extends Part implements Processor {
+public class GPU extends Part implements Processor {
     private int clockSpeedMHz;
     private int memoryGB;
     
 //    public Gpu(ArrayList<String> information) {
 //    }
     
-    public Gpu(String name, String manufacturer, double price, int year, int clockSpeedMHz, int memoryGB) {
+    
+    public GPU(String name, String manufacturer, double price, int year, int clockSpeedMHz, int memoryGB) {
         super(name, manufacturer, price, year);
         this.clockSpeedMHz = clockSpeedMHz;
         this.memoryGB = memoryGB;
         setType("GPU");
+    }
+    
+    /**
+     * this makes everything infinitely easier
+     * @param parameters
+     */
+    public GPU(String[] parameters) {
+        super(parameters);
+        this.clockSpeedMHz = Integer.parseInt(parameters[5]);
+        this.memoryGB = Integer.parseInt(parameters[6]);
     }
     
     @Override

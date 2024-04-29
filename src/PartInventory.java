@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.ArrayList;
 // import the parts package in src
 
 
@@ -7,16 +6,20 @@ import java.util.ArrayList;
 // Part: the specific type of part, e.g. RX7800XT
 // Integer: how many of the part there is
 // the partInventory class is responsible for keeping track of the store's inventory.
+
+// CREATING PARTS FROM FILE FUTURE RESOURCE:
+// https://stackoverflow.com/questions/30564462/read-data-from-a-text-file-and-create-an-object
+
 public class PartInventory {
     
     private int numberOfPartTypes;
     private HashMap<String, HashMap<Part, Integer>> inventory;
     
-    private final Gpu RX7800XT = new Gpu(
+    private final GPU RX7800XT = new GPU(
             "RX 7800 XT", "AMD",
             529.99, 2023,
             2430, 16);
-    private final Cpu R77800X3D = new Cpu(
+    private final CPU R77800X3D = new CPU(
             "Ryzen 7 7800X3D", "AMD",
             382.11, 2023,
             4200);
