@@ -80,8 +80,10 @@ public class PartFactory {
      *
      * @param fileName
      * @return part array
+     * @throws FileNotFoundException 
      */
-    public static ArrayList<Part> makePartsFromList(String fileName) {
+
+    public static ArrayList<Part> makePartsFromList(String fileName) throws FileNotFoundException {
         ArrayList<String> partInfoStringArray = readPartsFromFile(fileName);
         ArrayList<Part> parts = new ArrayList<>();
         //System.out.println(partInfoStringArray);
@@ -95,53 +97,51 @@ public class PartFactory {
         Part partName = new GPU(partInfoStringArray.get(0), "AMD", 529.99, 2023, 2430, 16);
         return null;
     }
+
     
     
-    private static ArrayList<String> readPartsFromFile(String fileName) {
+
+    
+    private static ArrayList<String> readPartsFromFile(String fileName) throws FileNotFoundException {
+
         ArrayList<String> parts = new ArrayList<>();
-        
-        File file;
-        
-        Scanner sc0 = null;
-        Scanner sc1 = null;
-        try {
-            
-            // open the file
-            file = new File(fileName);
-            sc0 = new Scanner(file);
-            while (sc0.hasNextLine()) {
-                String line = sc0.nextLine();
-                sc1 = new Scanner(line);
-                sc1.useDelimiter(",");
-                while (sc1.hasNext()) {
-                    String testScanner1String = "";
-                    testScanner1String += sc1.next();
-                    System.out.println(testScanner1String);
-                    parts.add(testScanner1String);
-                }
-// for testing purposes
-//              boolean hasNextLine = sc0.hasNextLine();
-//				switch (hasNextLine)
-//				{
-//                    case true:
-//					default:
-//						System.out.print("Nothing was scanned");
-//						break;
-//				}
-            }
-            // use the scanner.useDelimiter method
-        } catch (FileNotFoundException e) {
-            
-            // in the event something goes wrong
-            System.out.println(e);
-//            System.exit(0);
-        } finally {
-            // close the file
-            System.out.println(parts);
-            if (sc0 != null && sc1 != null) {
-                sc0.close();
-                sc1.close();
-            }
+        // rewrite so the File object is being initialized in a try block
+        File file = new File(fileName);
+        // rewrite to initialize reader in a try block
+        Scanner reader = new Scanner(file);
+        // use the next line character to distinguish what is being read
+        reader.useDelimiter("\n");
+        // while there is a next line in the file
+        while(reader.hasNextLine())
+        {
+        	// partsString holds the information from the file as a String
+        	String partsString = reader.nextLine();
+        	// print out the line (for testing mostly)
+        	System.out.println(partsString);
+        	// partsScanner is a new scanner that scans partsString
+        	Scanner partsScanner = new Scanner(partsString);
+        	// use the , character to distinguish between what's in the file
+        	partsScanner.useDelimiter(",");
+        	
+        	// inner while loop, while partsScanner has something next
+        	while(partsScanner.hasNext())
+        	{
+        		// temporary part
+        		Part part;
+        		//
+        		String element = partsScanner.next();
+        		
+        		System.out.println(element);
+        		
+    
+//        		switch(element)
+//        		{
+//        			case "GPU": part = new Gpu();
+//        			break;
+//        			case "CPU": part = new Cpu();
+//        			break;
+//        		}
+        	}
         }
         return parts;
     }

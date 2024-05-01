@@ -41,7 +41,7 @@ public abstract class Part {
         info = "Name: " + this.name + ",\nManufacturer: " + this.manufacturer + ",\nPrice: "
                 + this.price + ",\nYear: " + this.year;
     }
-    
+
     /**
      * this makes everything infinitely easier for partFactory, see new GPU constructor in GPU class
      * @param parameters
@@ -55,6 +55,7 @@ public abstract class Part {
         info = "Name: " + this.name + ",\nManufacturer: " + this.manufacturer + ",\nPrice: "
                 + this.price + ",\nYear: " + this.year;
     }
+
     
     public double getPrice() {
         return price;
