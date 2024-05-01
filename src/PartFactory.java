@@ -28,7 +28,7 @@ public class PartFactory {
      */
     public static ArrayList<Part> makePartsFromFile() {
         ArrayList<Part> partsList = new ArrayList<>();
-        Scanner scanner;
+        Scanner scanner = null;
         Part part;
         String line;
         try {
@@ -67,6 +67,13 @@ public class PartFactory {
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
+        }
+        finally
+        {
+        	if(scanner != null)
+        	{
+        		scanner.close();
+        	}
         }
         return partsList;
     }
