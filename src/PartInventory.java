@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 // import the parts package in src
 
@@ -14,25 +15,31 @@ public class PartInventory {
     
     private int numberOfPartTypes;
     private HashMap<String, HashMap<Part, Integer>> inventory;
-    
-    private final GPU RX7800XT = new GPU(
-            "RX 7800 XT", "AMD",
-            529.99, 2023,
-            2430, 16);
-    private final CPU R77800X3D = new CPU(
-            "Ryzen 7 7800X3D", "AMD",
-            382.11, 2023,
-            4200);
+    private ArrayList<Part> parts;
+
+//    private final GPU RX7800XT = new GPU(
+//            "RX 7800 XT", "AMD",
+//            529.99, 2023,
+//            2430, 16);
+//    private final CPU R77800X3D = new CPU(
+//            "Ryzen 7 7800X3D", "AMD",
+//            382.11, 2023,
+//            4200);
     
     public PartInventory() {
-        inventory = new HashMap<String, HashMap<Part, Integer>>();
-        addPart(RX7800XT);
-        addPart(R77800X3D);
+        inventory = new HashMap<>();
+        parts = PartFactory.makePartsFromFile();
+        for (Part part : parts) {
+            addPart(part);
+        }
+//        addPart(RX7800XT);
+//        addPart(R77800X3D);
         numberOfPartTypes = inventory.size();
     }
     
     /**
      * create one or more parts based on the file that creates it, and then adds it to the inventory
+     *
      * @param
      */
 //    public void buildParts() {
@@ -42,7 +49,6 @@ public class PartInventory {
 //        ArrayList<Part> partList = PartFactory.readPartsFromFile(type + "Inventory");
 //
 //    }
-    
     public String[] getPartTypes() {
         return inventory.keySet().toArray(new String[0]);
     }

@@ -11,7 +11,7 @@ public class PartFactory {
     public static void main(String[] args) {
 //        makePartsFromList("src/Inventory.csv");
         try {
-            ArrayList<Part> partsList = makePartsFromFile(partsListFile);
+            ArrayList<Part> partsList = makePartsFromFile();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -26,35 +26,49 @@ public class PartFactory {
      * @return
      * @throws FileNotFoundException
      */
-    public static ArrayList<Part> makePartsFromFile(File file) throws FileNotFoundException {
+    public static ArrayList<Part> makePartsFromFile() {
         ArrayList<Part> partsList = new ArrayList<>();
-        Scanner scanner = new Scanner(file);
-        String[] parameters;
-        int i = 0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            parameters = line.split(",");
-            String partType = parameters[0];
-            String name = parameters[1];
-            String manufacturer = parameters[2];
-            double price = Double.parseDouble(parameters[3]);
-            int year = Integer.parseInt(parameters[4]);
-            switch (partType) {
-                case "GPU":
-                    GPU gpu = new GPU(parameters);
-                    partsList.add(gpu);
-                    break;
-                case "CPU":
-                    CPU cpu = new CPU(parameters);
-                    partsList.add(cpu);
-                    break;
-                // etc.
+        Scanner scanner;
+        Part part;
+        String line;
+        try {
+            scanner = new Scanner(partsListFile);
+            String[] parameters;
+            int i = 0;
+            while (scanner.hasNextLine()) {
+                part = null;
+                line = scanner.nextLine();
+                parameters = line.split(",");
+                String partType = parameters[0];
+                String name = parameters[1];
+                String manufacturer = parameters[2];
+                double price = Double.parseDouble(parameters[3]);
+                int year = Integer.parseInt(parameters[4]);
+                switch (partType) {
+                    case "GPU":
+                        part = new GPU(parameters);
+                        break;
+                    case "CPU":
+                        part = new CPU(parameters);
+                        break;
+                    case "Motherboard":
+                        part = new Motherboard(parameters);
+                        break;
+                    case "Ram":
+                        part = new Ram(parameters);
+                        break;
+                }
+                if (part != null) {
+                    partsList.add(part);
+                }
+                // VV uncomment to prove it works
+//                System.out.println(partsList.get(i).getInfo());
+                i++;
             }
-            // VV uncomment to prove it works
-            System.out.println(partsList.get(i).getInfo());
-            i++;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        return null;
+        return partsList;
     }
 
 //    public static GPU makeGPUFromFile() {
