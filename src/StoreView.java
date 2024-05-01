@@ -30,8 +30,8 @@ public class StoreView extends JFrame {
     private JPanel buySellButtonsPanel;
     // a JPanel partInfoPanel
     private JPanel partInfoPanel;
-    // a JPanel switchTabPanel
-    private JPanel switchTabPanel;
+    // a JPanel topMenuPanel
+    private JPanel topMenuPanel;
     // a Border panelBorder
     private Border panelBorder;
     // a Color textColor that is final
@@ -66,11 +66,14 @@ public class StoreView extends JFrame {
     private JButton storeButton;
     // a JButton homeTabButton
     private JButton homeButton;
-    // a JLable partInforLable
+    // a JLable partInfoLable
     private JLabel partInfoLabel;
+    private JLabel balanceLabel;
     // a Part currentPart
     private Part currentPart;
+    private String currentPartType;
     private int storePanelHeight;
+    private double balance;
     
     public StoreView(StoreModel storeModel) {
         try {
@@ -188,38 +191,48 @@ public class StoreView extends JFrame {
 //        buyButton.setVisible(false);
 //        sellButton.setVisible(false);
         
-        // switchTabPanel
-        switchTabPanel = new JPanel();
-        int switchTabPanelHeight = HEIGHT - storePanelHeight;
-        switchTabPanel.setPreferredSize(new Dimension(WIDTH, switchTabPanelHeight));
-        FlowLayout switchTabLayout = new FlowLayout();
-        switchTabLayout.setAlignment(FlowLayout.LEFT);
-        switchTabPanel.setLayout(switchTabLayout);
+        
+        // topMenuPanel
+        topMenuPanel = new JPanel();
+        int topMenuPanelHeight = HEIGHT - storePanelHeight;
+        topMenuPanel.setPreferredSize(new Dimension(WIDTH, topMenuPanelHeight));
+        FlowLayout topMenuPanelLayout = new FlowLayout();
+        topMenuPanelLayout.setAlignment(FlowLayout.LEFT);
+        topMenuPanel.setLayout(topMenuPanelLayout);
         storeButton = new JButton("Store");
         homeButton = new JButton("Home");
         storeButton.addActionListener(controller);
         homeButton.addActionListener(controller);
-        switchTabPanel.add(storeButton);
-        switchTabPanel.add(homeButton);
+        topMenuPanel.add(storeButton);
+        topMenuPanel.add(homeButton);
+        balanceLabel = new JLabel("");
+        topMenuPanel.add(balanceLabel);
         
         // add panels to frame
         storePanel.add(pickPartTypePanel, BorderLayout.CENTER);
         storePanel.add(specsPanel, BorderLayout.EAST);
         
         mainPanel.add(storePanel, BorderLayout.CENTER);
-        mainPanel.add(switchTabPanel, BorderLayout.NORTH);
+        mainPanel.add(topMenuPanel, BorderLayout.NORTH);
         add(mainPanel);
         setVisible(true);
         
         // currentPanel
         currentPanel = storePanel;
         
+        updateTopMenuPanel();
+        
     }
     
-    public void showSpecsPanel(String partType) {
+    public void update() {
+        updateSpecsPanel();
+        updateTopMenuPanel();
+    }
+    
+    private void updateSpecsPanel() {
         // removes all components from specsPanel
         specsPanel.removeAll();
-        Part[] partsOfType = partInventory.getPartsOfType(partType);
+        Part[] partsOfType = partInventory.getPartsOfType(currentPartType);
         
         buySellButtonsPanel = new JPanel();
         buySellButtonsPanel.setLayout(new FlowLayout());
@@ -231,7 +244,7 @@ public class StoreView extends JFrame {
 
 //        partSelectComboBox = new JComboBox(namesOfParts);
         partSelectComboBox = new JComboBox(partsOfType);
-        Part currentPart = (Part) partSelectComboBox.getSelectedItem();
+        currentPart = (Part) partSelectComboBox.getSelectedItem();
         String info = currentPart.getInfo();
         info = "<html>" + info + "</html>";
         info = info.replace(",\n", "<br/>");
@@ -246,6 +259,28 @@ public class StoreView extends JFrame {
         specsPanel.revalidate();
 //        specsPanel.repaint();
         specsPanel.setVisible(true);
+    }
+    
+    
+    private void updateTopMenuPanel() {
+        // UPDATE BALANCE
+        balance = storeModel.getUser().getBalance();
+        String balanceString = Double.toString(balance);
+        balanceLabel.setText(balanceString);
+        topMenuPanel.revalidate();
+        
+    }
+    
+    public void setCurrentPartType(String currentPartType) {
+        this.currentPartType = currentPartType;
+    }
+    
+    public String getCurrentPartType() {
+        return currentPartType;
+    }
+    
+    public Part getCurrentPart() {
+        return currentPart;
     }
     
     public JPanel getStorePanel() {

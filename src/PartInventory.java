@@ -15,7 +15,7 @@ public class PartInventory {
     
     private int numberOfPartTypes;
     private HashMap<String, HashMap<Part, Integer>> inventory;
-    private ArrayList<Part> parts;
+    private static final ArrayList<Part> allParts = PartFactory.makePartsFromFile();
 
 //    private final GPU RX7800XT = new GPU(
 //            "RX 7800 XT", "AMD",
@@ -28,8 +28,7 @@ public class PartInventory {
     
     public PartInventory() {
         inventory = new HashMap<>();
-        parts = PartFactory.makePartsFromFile();
-        for (Part part : parts) {
+        for (Part part : allParts) {
             addPart(part);
         }
 //        addPart(RX7800XT);
@@ -117,7 +116,7 @@ public class PartInventory {
      *
      * @param part
      */
-    public void removePart(Part part) {
+    public void decrementPartCount(Part part) {
         if (getPartCount(part) > 0) {
             setPartCount(part, getPartCount(part) - 1);
         } else {
@@ -126,8 +125,38 @@ public class PartInventory {
     }
     
     public Part[] getPartsOfType(String partType) {
-        HashMap<Part, Integer> partMap = inventory.get(partType);
+        HashMap<Part, Integer> partMap = inventory.getOrDefault(partType, new HashMap<>());
         Part[] parts = partMap.keySet().toArray(new Part[0]);
         return parts;
+    }
+    
+    public static ArrayList<Part> getAllParts() {
+        return allParts;
+    }
+    
+    /**
+     * debug
+     * @return
+     */
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        String partString = "";
+        HashMap<Part, Integer> map;
+        int count = 0;
+        for (String partType : inventory.keySet()) {
+            map = inventory.get(partType);
+            for (Part part : map.keySet()) {
+                partString = part.toString();
+                count = inventory.get(partType).get(part);
+                stringBuilder.append("Part: " + partString + ", Count: " + count);
+                stringBuilder.append("\n");
+            }
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
+    }
+    
+    public void printDebugInfo() {
+        System.out.println(toString());
     }
 }

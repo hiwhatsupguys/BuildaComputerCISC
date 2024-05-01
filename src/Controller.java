@@ -1,4 +1,3 @@
-import javax.net.ssl.KeyStoreBuilderParameters;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +22,7 @@ public class Controller implements ActionListener {
     private JButton sellButton;
     private JButton storeButton;
     private JButton homeButton;
+    private Part currentPart;
     
     
     /**
@@ -49,6 +49,7 @@ public class Controller implements ActionListener {
         sellButton = view.getSellButton();
         storeButton = view.getStoreButton();
         homeButton = view.getHomeButton();
+        currentPart = view.getCurrentPart();
         // loop over all part select buttons
         for (int i = 0; i < partSelectButtons.length; i++) {
             JButton currentButton = partSelectButtons[i];
@@ -56,16 +57,18 @@ public class Controller implements ActionListener {
             if (e.getSource() == currentButton) {
                 String partType = currentButton.getText();
                 // show the corresponding part types in the specs panel
-                view.showSpecsPanel(partType);
+                view.setCurrentPartType(partType);
             }
         }
         // check if from buyButton
         if (e.getSource() == buyButton) {
-            System.out.println("buy!");
+            model.buy(currentPart);
+            System.out.println(model.getUser().getBalance());
         }
         // check if from sellButton
         if (e.getSource() == sellButton) {
-            System.out.println("sell!");
+            model.sell(currentPart);
+            System.out.println(model.getUser().getBalance());
         }
         // check if from storeButton
         if (e.getSource() == storeButton) {
@@ -73,7 +76,12 @@ public class Controller implements ActionListener {
         }
         // check if from homeButton
         if (e.getSource() == homeButton) {
-            System.out.println("sell!");
         }
+        
+        // tests
+        model.getPartInventory().printDebugInfo();
+        
+        
+        view.update();
     }
 }
