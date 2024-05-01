@@ -76,6 +76,7 @@ public class Controller implements ActionListener {
         }
         // check if from homeButton
         if (e.getSource() == homeButton) {
+            view.setCurrentPanel(view.getHomePanel());
         }
         
         // tests

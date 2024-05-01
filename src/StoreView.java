@@ -31,8 +31,8 @@ public class StoreView extends JFrame {
     private JPanel buySellButtonsPanel;
     // a JPanel partInfoPanel
     private JPanel partInfoPanel;
-    // a JPanel topMenuPanel
-    private JPanel topMenuPanel;
+    // a JPanel topPanel
+    private JPanel topPanel;
     // a Border panelBorder
     private Border panelBorder;
     // a Color textColor that is final
@@ -76,6 +76,7 @@ public class StoreView extends JFrame {
     private int storePanelHeight;
     private double balance;
     private final DecimalFormat balanceFormat = new DecimalFormat(".00");
+    private JPanel topButtonsPanel;
     
     public StoreView(StoreModel storeModel) {
         try {
@@ -96,6 +97,8 @@ public class StoreView extends JFrame {
         numberOfPartTypes = partInventory.getNumberOfPartTypes();
         partSelectButtons = new JButton[numberOfPartTypes];
         partSelectComboBox = new JComboBox();
+        // border (color and thickness)
+        panelBorder = BorderFactory.createLineBorder(borderColor, 4);
         
         setTitle("Build a Computer");
         setSize(WIDTH, HEIGHT);
@@ -105,14 +108,37 @@ public class StoreView extends JFrame {
         // puts in center of screen
         setLocationRelativeTo(null);
         
-        // border (color and thickness)
-        panelBorder = BorderFactory.createLineBorder(borderColor, 4);
-        
-        
-        // mainPanel
+        // mainPanel (has both store, home, and top panels)
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        
+        setupStorePanel();
+        setupTopPanel();
+        setupHomePanel();
+        
+        // add panels to storePanel
+        storePanel.add(pickPartTypePanel, BorderLayout.CENTER);
+        storePanel.add(specsPanel, BorderLayout.EAST);
+        
+        // add panels to homePanel
+        
+        // add panels to mainPanel
+        mainPanel.add(storePanel, BorderLayout.CENTER);
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(homePanel, BorderLayout.NORTH);
+        add(mainPanel);
+        setVisible(true);
+        
+        // currentPanel
+        currentPanel = storePanel;
+        
+        updateTopPanel();
+        
+    }
+    
+    
+    private void setupStorePanel() {
         
         // storePanel
         storePanel = new JPanel();
@@ -122,8 +148,6 @@ public class StoreView extends JFrame {
 //        storePanel.setBackground(Color.white);
         
         // partSelectButtons
-        
-        // @TODO buttonsPanel
         partSelectButtonsPanel = new JPanel();
         // testing
         partSelectButtonsPanel.setBackground(Color.green);
@@ -146,12 +170,6 @@ public class StoreView extends JFrame {
             partSelectButtonsPanel.add(button);
             partSelectButtons[i] = button;
         }
-
-//        for (String partType : partInventory.getPartTypes()) {
-//            JButton button = new JButton(partType);
-//            button.addActionListener(controller);
-//            buttonsPanel.add(button);
-//        }
         
         // pickPartPanel
         pickPartTypePanel = new JPanel();
@@ -190,52 +208,6 @@ public class StoreView extends JFrame {
         buyButton.addActionListener(controller);
         sellButton = new JButton("Sell");
         sellButton.addActionListener(controller);
-//        buyButton.setVisible(false);
-//        sellButton.setVisible(false);
-        
-        
-        // topMenuPanel
-        topMenuPanel = new JPanel();
-        int topMenuPanelHeight = HEIGHT - storePanelHeight;
-        topMenuPanel.setPreferredSize(new Dimension(WIDTH, topMenuPanelHeight));
-        FlowLayout topMenuPanelLayout = new FlowLayout();
-        topMenuPanelLayout.setAlignment(FlowLayout.LEFT);
-        topMenuPanel.setLayout(topMenuPanelLayout);
-        storeButton = new JButton("Store");
-        homeButton = new JButton("Home");
-        storeButton.addActionListener(controller);
-        homeButton.addActionListener(controller);
-        topMenuPanel.add(storeButton);
-        topMenuPanel.add(homeButton);
-        balanceLabel = new JLabel("");
-        topMenuPanel.add(balanceLabel);
-        
-        // add panels to frame
-        storePanel.add(pickPartTypePanel, BorderLayout.CENTER);
-        storePanel.add(specsPanel, BorderLayout.EAST);
-        
-        mainPanel.add(storePanel, BorderLayout.CENTER);
-        mainPanel.add(topMenuPanel, BorderLayout.NORTH);
-        add(mainPanel);
-        setVisible(true);
-        
-        // currentPanel
-        currentPanel = storePanel;
-        
-        updateTopMenuPanel();
-        
-    }
-    
-    public void update() {
-        updateSpecsPanel();
-        updateTopMenuPanel();
-    }
-    
-    private void updateSpecsPanel() {
-        // removes all components from specsPanel
-        specsPanel.removeAll();
-        Part[] partsOfType = partInventory.getPartsOfType(currentPartType);
-        
         buySellButtonsPanel = new JPanel();
         buySellButtonsPanel.setLayout(new FlowLayout());
         // makes it transparent
@@ -243,8 +215,44 @@ public class StoreView extends JFrame {
         // add buttons to panel
         buySellButtonsPanel.add(buyButton);
         buySellButtonsPanel.add(sellButton);
-
-//        partSelectComboBox = new JComboBox(namesOfParts);
+    }
+    
+    private void setupTopPanel() {
+        int topPanelHeight = HEIGHT - storePanelHeight;
+        
+        // topButtonsPanel
+        topButtonsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        topButtonsPanel.setPreferredSize(new Dimension(WIDTH / 2, topPanelHeight));
+        storeButton = new JButton("Store");
+        homeButton = new JButton("Home");
+        storeButton.addActionListener(controller);
+        homeButton.addActionListener(controller);
+        topButtonsPanel.add(storeButton);
+        topButtonsPanel.add(homeButton);
+        
+        // topPanel
+        topPanel = new JPanel();
+        topPanel.setPreferredSize(new Dimension(WIDTH, topPanelHeight));
+        topPanel.setLayout(new BorderLayout());
+        topPanel.add(topButtonsPanel, BorderLayout.WEST);
+        balanceLabel = new JLabel("");
+        topPanel.add(balanceLabel, BorderLayout.EAST);
+    }
+    
+    private void setupHomePanel() {
+        homePanel = new JPanel();
+    }
+    
+    public void update() {
+        updateSpecsPanel();
+        updateTopPanel();
+        updateHome();
+    }
+    
+    private void updateSpecsPanel() {
+        // removes all components from specsPanel
+        specsPanel.removeAll();
+        Part[] partsOfType = partInventory.getPartsOfType(currentPartType);
         partSelectComboBox = new JComboBox(partsOfType);
         currentPart = (Part) partSelectComboBox.getSelectedItem();
         String info = currentPart.getInfo();
@@ -260,17 +268,19 @@ public class StoreView extends JFrame {
         // https://stackoverflow.com/questions/26853598/jpanel-not-showing-components
         specsPanel.revalidate();
 //        specsPanel.repaint();
-        specsPanel.setVisible(true);
     }
     
     
-    private void updateTopMenuPanel() {
+    private void updateTopPanel() {
         // UPDATE BALANCE
         balance = storeModel.getUser().getBalance();
         String balanceString = balanceFormat.format(balance);
-        balanceLabel.setText(balanceString);
-        topMenuPanel.revalidate();
-        
+        balanceLabel.setText("Balance: " + balanceString + "   ");
+        topPanel.revalidate();
+    }
+    
+    private void updateHome() {
+    
     }
     
     public void setCurrentPartType(String currentPartType) {
@@ -325,8 +335,5 @@ public class StoreView extends JFrame {
         return homeButton;
     }
     
-    private void setupStorePanel() {
-    
-    }
     
 }
