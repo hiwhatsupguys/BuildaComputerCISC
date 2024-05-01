@@ -28,6 +28,7 @@ public class PartInventory {
     
     public PartInventory() {
         inventory = new HashMap<>();
+        // add the base parts to all partInventories
         for (Part part : allParts) {
             addPart(part);
         }

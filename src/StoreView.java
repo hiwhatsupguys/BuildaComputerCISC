@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.text.DecimalFormat;
 
 /**
  * Lead Author(s):
@@ -74,6 +75,7 @@ public class StoreView extends JFrame {
     private String currentPartType;
     private int storePanelHeight;
     private double balance;
+    private final DecimalFormat balanceFormat = new DecimalFormat(".00");
     
     public StoreView(StoreModel storeModel) {
         try {
@@ -265,7 +267,7 @@ public class StoreView extends JFrame {
     private void updateTopMenuPanel() {
         // UPDATE BALANCE
         balance = storeModel.getUser().getBalance();
-        String balanceString = Double.toString(balance);
+        String balanceString = balanceFormat.format(balance);
         balanceLabel.setText(balanceString);
         topMenuPanel.revalidate();
         
