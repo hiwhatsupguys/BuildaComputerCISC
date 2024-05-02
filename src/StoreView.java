@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * Lead Author(s):
@@ -77,6 +78,8 @@ public class StoreView extends JFrame {
     private double balance;
     private final DecimalFormat balanceFormat = new DecimalFormat(".00");
     private JPanel topButtonsPanel;
+    private JPanel computerPartsPanel;
+    private JPanel userPartsPanel;
     
     public StoreView(StoreModel storeModel) {
         // this is to make it look the same on mac and windows
@@ -126,13 +129,13 @@ public class StoreView extends JFrame {
         
         // add panels to mainPanel
         mainPanel.add(storePanel, BorderLayout.CENTER);
-//        mainPanel.add(homePanel, BorderLayout.CENTER);
         mainPanel.add(topPanel, BorderLayout.NORTH);
         add(mainPanel);
         setVisible(true);
         
         // currentPanel
-        currentPanel = storePanel;
+//        currentPanel = storePanel;
+        setCurrentPanel(storePanel);
         
         updateTopPanel();
         
@@ -241,7 +244,21 @@ public class StoreView extends JFrame {
     }
     
     private void setupHomePanel() {
-        homePanel = new JPanel();
+        homePanel = new JPanel(new BorderLayout());
+        // user's parts on the left
+        // user's computer on the right (with the parts that are in the computer)
+        computerPartsPanel = new JPanel();
+        computerPartsPanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
+        computerPartsPanel.setBorder(panelBorder);
+        computerPartsPanel.setBackground(Color.cyan);
+        userPartsPanel = new JPanel();
+        userPartsPanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
+        userPartsPanel.setBackground(Color.blue);
+        userPartsPanel.setBorder(panelBorder);
+        
+        
+        homePanel.add(userPartsPanel, BorderLayout.WEST);
+        homePanel.add(computerPartsPanel, BorderLayout.EAST);
     }
     
     public void update() {
@@ -256,10 +273,12 @@ public class StoreView extends JFrame {
         Part[] partsOfType = partInventory.getPartsOfType(currentPartType);
         partSelectComboBox = new JComboBox(partsOfType);
         currentPart = (Part) partSelectComboBox.getSelectedItem();
-        String info = currentPart.getInfo();
-        info = "<html>" + info + "</html>";
-        info = info.replace(",\n", "<br/>");
-        partInfoLabel.setText(info);
+        if (currentPart != null) {
+            String info = currentPart.getInfo();
+            info = "<html>" + info + "</html>";
+            info = info.replace(",\n", "<br/>");
+            partInfoLabel.setText(info);
+        }
         
         specsPanel.add(partSelectComboBox, BorderLayout.NORTH);
         specsPanel.add(buySellButtonsPanel, BorderLayout.SOUTH);
@@ -280,7 +299,20 @@ public class StoreView extends JFrame {
         topPanel.revalidate();
     }
     
+    /**
+     * updates changes in homePanel
+     */
     private void updateHomePanel() {
+        User user = storeModel.getUser();
+        PartInventory inventory = user.getInventory();
+        ArrayList<Part> ownedParts = inventory.getAllOwnedParts();
+        userPartsPanel.removeAll();
+        for (Part part : ownedParts) {
+            JCheckBox checkBox = new JCheckBox(part.toString());
+            userPartsPanel.add(checkBox);
+            System.out.println(part.toString() + " added");
+        }
+        homePanel.revalidate();
     }
     
     /**
@@ -291,13 +323,13 @@ public class StoreView extends JFrame {
     public void setCurrentPanel(JPanel newPanel) {
         // don't do anything if the newPanel is already the currentPanel
         if (newPanel == currentPanel) return;
-        currentPanel = newPanel;
+        if (currentPanel == null) currentPanel = newPanel;
+        
         currentPanel.setVisible(false);
         mainPanel.remove(currentPanel);
-//        currentPanel.setVisible(false);
-//
-//        currentPanel = newPanel;
-//        currentPanel.setVisible(true);
+        currentPanel = newPanel;
+        currentPanel.setVisible(true);
+        mainPanel.add(currentPanel, BorderLayout.CENTER);
     }
     
     public void setCurrentPartType(String currentPartType) {

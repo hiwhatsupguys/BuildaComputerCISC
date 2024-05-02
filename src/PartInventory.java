@@ -136,7 +136,25 @@ public class PartInventory {
     }
     
     /**
+     * adds all owned (part count > 0) parts to arraylist
+     * @return partsList
+     */
+    public ArrayList<Part> getAllOwnedParts() {
+        ArrayList<Part> partsList = new ArrayList<>();
+        for (String partType : inventory.keySet()) {
+            HashMap<Part, Integer> key = inventory.get(partType);
+            for (Part part : key.keySet()) {
+                if (key.get(part) > 0) {
+                    partsList.add(part);
+                }
+            }
+        }
+        return partsList;
+    }
+    
+    /**
      * debug
+     *
      * @return
      */
     public String toString() {

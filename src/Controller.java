@@ -82,7 +82,10 @@ public class Controller implements ActionListener {
         // tests
         model.getPartInventory().printDebugInfo();
         
+        // action listener to user part list
+        // use that parts list
         
+
         view.update();
     }
 }
