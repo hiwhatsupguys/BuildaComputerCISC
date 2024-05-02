@@ -79,6 +79,7 @@ public class StoreView extends JFrame {
     private JPanel topButtonsPanel;
     
     public StoreView(StoreModel storeModel) {
+        // this is to make it look the same on mac and windows
         try {
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (Exception e) {
@@ -125,8 +126,8 @@ public class StoreView extends JFrame {
         
         // add panels to mainPanel
         mainPanel.add(storePanel, BorderLayout.CENTER);
+//        mainPanel.add(homePanel, BorderLayout.CENTER);
         mainPanel.add(topPanel, BorderLayout.NORTH);
-        mainPanel.add(homePanel, BorderLayout.NORTH);
         add(mainPanel);
         setVisible(true);
         
@@ -246,7 +247,7 @@ public class StoreView extends JFrame {
     public void update() {
         updateSpecsPanel();
         updateTopPanel();
-        updateHome();
+        updateHomePanel();
     }
     
     private void updateSpecsPanel() {
@@ -279,8 +280,24 @@ public class StoreView extends JFrame {
         topPanel.revalidate();
     }
     
-    private void updateHome() {
+    private void updateHomePanel() {
+    }
     
+    /**
+     * switches the current panel (storePanel or homePanel)
+     *
+     * @param newPanel
+     */
+    public void setCurrentPanel(JPanel newPanel) {
+        // don't do anything if the newPanel is already the currentPanel
+        if (newPanel == currentPanel) return;
+        currentPanel = newPanel;
+        currentPanel.setVisible(false);
+        mainPanel.remove(currentPanel);
+//        currentPanel.setVisible(false);
+//
+//        currentPanel = newPanel;
+//        currentPanel.setVisible(true);
     }
     
     public void setCurrentPartType(String currentPartType) {
@@ -307,13 +324,6 @@ public class StoreView extends JFrame {
         return currentPanel;
     }
     
-    public void setCurrentPanel(JPanel newPanel) {
-        // don't do anything if the newPanel is already the currentPanel
-        if (newPanel == currentPanel) return;
-        currentPanel.setVisible(false);
-        currentPanel = newPanel;
-        currentPanel.setVisible(true);
-    }
     
     public JButton[] getPartSelectButtons() {
         return partSelectButtons;
