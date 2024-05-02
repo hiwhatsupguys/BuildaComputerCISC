@@ -6,8 +6,9 @@ import java.util.Scanner;
 
 public class PartFactory {
     
-    private static final File partsListFile = new File("src/Inventory.csv");
-    
+    //private static final File partsListFile = new File("src/Inventory.csv");
+	// better to pass the file name to the methods than a file object
+    private static final String partsListFile = "src/Inventory.csv";
     public static void main(String[] args) {
 //        makePartsFromList("src/Inventory.csv");
         try {
@@ -28,11 +29,12 @@ public class PartFactory {
      */
     public static ArrayList<Part> makePartsFromFile() {
         ArrayList<Part> partsList = new ArrayList<>();
+        File file = new File(partsListFile);
         Scanner scanner = null;
         Part part;
         String line;
         try {
-            scanner = new Scanner(partsListFile);
+            scanner = new Scanner(file);
             String[] parameters;
             int i = 0;
             while (scanner.hasNextLine()) {
@@ -61,12 +63,14 @@ public class PartFactory {
                 if (part != null) {
                     partsList.add(part);
                 }
-                // VV uncomment to prove it works
-//                System.out.println(partsList.get(i).getInfo());
+                 //VV uncomment to prove it works
+                System.out.println(partsList.get(i).getInfo());
                 i++;
             }
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+        	System.err.println(e);
+        	return new ArrayList<Part>();
         }
         finally
         {
