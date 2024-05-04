@@ -1,4 +1,10 @@
-
+/**
+ * Lead Author(s):
+ * @author Anthony Bazalaki, Elias Zarate
+ * 
+ * Class Responsibilities:
+ * 
+ */
 // a GPU is a Part
 // a GPU can Process
 public class GPU extends Part implements Processor {

@@ -9,7 +9,14 @@ import java.util.ArrayList;
  *
  * @author Anthony Bazalaki, Elias Zarate
  * <p>
+ * <p>
+ * Additional Resources:
+ * <p>
+ * https://stackoverflow.com/questions/26853598/jpanel-not-showing-components
+ * <p>
  * Class Responsibilities:
+ * The StoreView Class is responsible for displaying all the information a user needs
+ * to buy parts and build thier comptuter.
  */
 
 // Store view is a JFrame
@@ -82,6 +89,11 @@ public class StoreView extends JFrame {
     private JPanel userPartsPanel;
     private ArrayList<JCheckBox> checkBoxes;
     
+    /**
+     * constructor for a store view
+     *
+     * @param storeModel
+     */
     public StoreView(StoreModel storeModel) {
         // this is to make it look the same on mac and windows
         try {
@@ -143,6 +155,9 @@ public class StoreView extends JFrame {
     }
     
     
+    /**
+     *
+     */
     private void setupStorePanel() {
         
         // storePanel
@@ -160,18 +175,18 @@ public class StoreView extends JFrame {
         // add the buttons with part types to the button panel
         GridLayout gridLayout = new GridLayout();
         // we might want to set rows and columns
-//        gridLayout.setRows(3);
+        gridLayout.setRows(3);
 //        gridLayout.setColumns(3);
         int gap = WIDTH / 100;
         gridLayout.setHgap(gap);
         gridLayout.setVgap(gap);
-        partSelectButtonsPanel.setLayout(new FlowLayout());
+        partSelectButtonsPanel.setLayout(gridLayout);
 //        buttonsPanel.setPreferredSize(new Dimension(100, 100));
-//        System.out.println(Arrays.toString(partInventory.getPartTypes()));
         for (int i = 0; i < numberOfPartTypes; i++) {
             JButton button = new JButton(partTypes[i]);
             button.addActionListener(controller);
             button.setPreferredSize(new Dimension(100, 100));
+            button.setFont(new Font("Verdana", Font.PLAIN, 20));
             partSelectButtonsPanel.add(button);
             partSelectButtons[i] = button;
         }
@@ -222,6 +237,10 @@ public class StoreView extends JFrame {
         buySellButtonsPanel.add(sellButton);
     }
     
+    /**
+     * The setupTopPanel method creates the top panel and adds it to the top of
+     * the BorderLayout in the store view
+     */
     private void setupTopPanel() {
         int topPanelHeight = HEIGHT - storePanelHeight;
         
@@ -244,6 +263,11 @@ public class StoreView extends JFrame {
         topPanel.add(balanceLabel, BorderLayout.EAST);
     }
     
+    /**
+     * The setupHomePanel method creates a new panel called homePanel, this panel will
+     * track the list of parts a user has selected thus far as well as what the user will decided to build their
+     * computer with
+     */
     private void setupHomePanel() {
         homePanel = new JPanel(new BorderLayout());
         // user's parts on the left
@@ -264,12 +288,19 @@ public class StoreView extends JFrame {
         homePanel.add(computerPartsPanel, BorderLayout.EAST);
     }
     
+    /**
+     * the update method updates the store view in its entirety
+     */
     public void update() {
         updateSpecsPanel();
         updateTopPanel();
         updateHomePanel();
     }
     
+    /**
+     * The updateSpecsPanel is updates the specs panel whenever a user is looking through the store's
+     * selection of parts
+     */
     private void updateSpecsPanel() {
         // removes all components from specsPanel
         specsPanel.removeAll();
@@ -294,6 +325,9 @@ public class StoreView extends JFrame {
     }
     
     
+    /**
+     * The updateTopPanel method updates a user's balance after a part has been selected
+     */
     private void updateTopPanel() {
         // UPDATE BALANCE
         balance = storeModel.getUser().getBalance();
@@ -332,34 +366,58 @@ public class StoreView extends JFrame {
         mainPanel.add(currentPanel, BorderLayout.CENTER);
     }
     
+    /**
+     * @return
+     */
     public ArrayList<JCheckBox> getCheckBoxes() {
         return checkBoxes;
     }
     
+    /**
+     * @param currentPartType
+     */
     public void setCurrentPartType(String currentPartType) {
         this.currentPartType = currentPartType;
     }
     
+    /**
+     * @return currentPartType
+     */
     public String getCurrentPartType() {
         return currentPartType;
     }
     
+    /**
+     * @return currentPart
+     */
     public Part getCurrentPart() {
         return currentPart;
     }
     
+    /**
+     * @return storePanel
+     */
     public JPanel getStorePanel() {
         return storePanel;
     }
     
+    /**
+     * @return homePanel
+     */
     public JPanel getHomePanel() {
         return homePanel;
     }
     
+    /**
+     * @return currentPanel
+     */
     public JPanel getCurrentPanel() {
         return currentPanel;
     }
     
+    /**
+     * @return partSelectedButtons
+     */
     
     public JButton[] getPartSelectButtons() {
         return partSelectButtons;
@@ -381,6 +439,12 @@ public class StoreView extends JFrame {
         return homeButton;
     }
     
+    /**
+     * The addCheckBox method adds a checkbox to the home panel based off
+     * of the user's list of selcted parts
+     *
+     * @param partToAdd
+     */
     public void addCheckBox(Part partToAdd) {
         String textToAdd = partToAdd.toString();
         // checks if the checkbox is already there
@@ -397,6 +461,12 @@ public class StoreView extends JFrame {
         checkBoxes.add(checkBoxToAdd);
     }
     
+    /**
+     * The removeCheckBox method removes a checkbox from the home panel in the
+     * event a user no longer wants the part they have selected
+     *
+     * @param partToRemove
+     */
     public void removeCheckBox(Part partToRemove) {
         String textToRemove = partToRemove.toString();
         JCheckBox checkBoxToRemove = null;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * @author Anthony Bazalaki, Elias Zarate
  * <p>
  * Class Responsibilities:
+   The Controller class cordinates between the end user, the model, and various other portions of our program.
  */
 
 // controller is an Action Listener
@@ -18,7 +19,9 @@ public class Controller implements ActionListener {
     private StoreModel model;
     // has a view
     private StoreView view;
+    // has an array of partSelecteButtons of JButton type
     private JButton[] partSelectButtons;
+    //
     private JButton buyButton;
     private JButton sellButton;
     private JButton storeButton;

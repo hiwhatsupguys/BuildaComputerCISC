@@ -1,14 +1,13 @@
 import java.util.ArrayList;
-
+/**
+ * Lead Author(s):
+ * @author Anthony Bazalaki, Elias Zarate
+ *
+ * Class Responsibilities:
+ *
+ */
 public class StoreModel {
-    
-    /**
-     * Lead Author(s):
-     *
-     * @author Anthony Bazalaki, Elias Zarate
-     * <p>
-     * Class Responsibilities:
-     */
+
     
     
     // list of parts

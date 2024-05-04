@@ -1,3 +1,10 @@
+/**
+ * Lead Author(s):
+ * @author Anthony Bazalaki, Elias Zarate
+ *
+ * Class Responsibilities:
+ *
+ */
 public interface Processor {
     
 	/**

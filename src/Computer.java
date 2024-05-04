@@ -5,6 +5,8 @@ import java.util.ArrayList;
  * @author Anthony Bazalaki, Elias Zarate
  * 
  * Class Responsibilities:
+   The Computer Class will keep track of a list of parts that when put together constitute a computer.
+   AU User(Customer) will buy a computer comprised of parts they have selected.
  * 
  */
 

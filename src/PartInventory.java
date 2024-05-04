@@ -1,5 +1,15 @@
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
+/**
+ * Lead Author(s):
+ * @author Anthony Bazalaki, Elias Zarate
+ * 
+ * Class Responsibilities:
+ * 
+ */
+
 // import the parts package in src
 
 

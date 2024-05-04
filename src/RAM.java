@@ -7,11 +7,11 @@
  */
 
 // RAM is a Part
-public class Ram extends Part {
+public class RAM extends Part {
     // RAM has memory
     private int memoryGB;
     
-    public Ram(String[] parameters) {
+    public RAM(String[] parameters) {
         super(parameters);
         this.memoryGB = Integer.parseInt(parameters[5]);
     }
@@ -25,7 +25,7 @@ public class Ram extends Part {
      * @param year
      * @param memory
      */
-    public Ram(String name, String manufacturer, double price, int year, int memory) {
+    public RAM(String name, String manufacturer, double price, int year, int memory) {
         super(name, manufacturer, price, year);
         this.memoryGB = memory;
         setType("RAM");

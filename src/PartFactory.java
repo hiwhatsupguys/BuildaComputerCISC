@@ -2,7 +2,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+/**
+ * Lead Author(s):
+ * @author Anthony Bazalaki, Elias Zarate
+ *
+ * Class Responsibilities:
+ *
+ */
 public class PartFactory {
     
     //private static final File partsListFile = new File("src/Inventory.csv");
@@ -52,8 +58,14 @@ public class PartFactory {
                     case "Motherboard":
                         part = new Motherboard(parameters);
                         break;
-                    case "Ram":
-                        part = new Ram(parameters);
+                    case "RAM":
+                        part = new RAM(parameters);
+                        break;
+                    case "Power Supply":
+                        part = new PowerSupply(parameters);
+                        break;
+                    case "Storage Device":
+                        part = new StorageDevice(parameters);
                         break;
                 }
                 if (part != null) {
