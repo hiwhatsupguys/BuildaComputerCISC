@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * Lead Author(s):
@@ -23,6 +24,8 @@ public class Controller implements ActionListener {
     private JButton storeButton;
     private JButton homeButton;
     private Part currentPart;
+    private ArrayList<JCheckBox> checkBoxes;
+    private User user;
     
     
     /**
@@ -50,6 +53,8 @@ public class Controller implements ActionListener {
         storeButton = view.getStoreButton();
         homeButton = view.getHomeButton();
         currentPart = view.getCurrentPart();
+        user = model.getUser();
+//        checkBoxes = view.getCheckBoxes();
         // loop over all part select buttons
         for (int i = 0; i < partSelectButtons.length; i++) {
             JButton currentButton = partSelectButtons[i];
@@ -62,13 +67,19 @@ public class Controller implements ActionListener {
         }
         // check if from buyButton
         if (e.getSource() == buyButton) {
+            view.addCheckBox(currentPart);
+//            view.addCheckBox(new JCheckBox(currentPart.toString()));
             model.buy(currentPart);
-            System.out.println(model.getUser().getBalance());
+            model.getPartInventory().printDebugInfo();
         }
         // check if from sellButton
         if (e.getSource() == sellButton) {
+            System.out.println(currentPart);
             model.sell(currentPart);
-            System.out.println(model.getUser().getBalance());
+            if (user.getInventory().getPartCount(currentPart) < 1) {
+                view.removeCheckBox(currentPart);
+            }
+            model.getPartInventory().printDebugInfo();
         }
         // check if from storeButton
         if (e.getSource() == storeButton) {
@@ -77,15 +88,15 @@ public class Controller implements ActionListener {
         // check if from homeButton
         if (e.getSource() == homeButton) {
             view.setCurrentPanel(view.getHomePanel());
+            System.out.println(model.getUser().getInventory().getAllOwnedParts());
         }
+        // CHECKBOXES
+//        for (JCheckBox checkBox : checkBoxes) {
+//            if (e.getSource() == checkBox) {
+//            }
+//        }
         
-        // tests
-        model.getPartInventory().printDebugInfo();
-        
-        // action listener to user part list
-        // use that parts list
-        
-
         view.update();
     }
+    
 }
