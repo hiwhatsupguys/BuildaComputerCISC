@@ -43,6 +43,7 @@ public abstract class Part {
     }
 
     /**
+     * public Constructor for a Part Object that takes a String array for parameters
      * this makes everything infinitely easier for partFactory, see new GPU constructor in GPU class
      * @param parameters
      */
@@ -56,11 +57,18 @@ public abstract class Part {
                 + this.price + ",\nYear: " + this.year;
     }
 
-    
+    /**
+     * returns the price of a part
+     * @return price
+     */
     public double getPrice() {
         return price;
     }
     
+    /**
+     * returns the name of a part
+     * @return name
+     */
     public String getName() {
         return name;
     }
@@ -74,22 +82,43 @@ public abstract class Part {
         return this.getName();
     }
     
+    /**
+     * returns the manufacturer
+     * @return manufacturer
+     */
     public String getManufacturer() {
         return manufacturer;
     }
     
+    /**
+     * returns the type of a part 
+     * example: GPU, CPU, Motherboard, PowerSupply, etc.
+     * @return
+     */
     public String getType() {
         return type;
     }
     
+    /**
+     * returns the year a part was manufactured in
+     * @return year
+     */
     public int getYear() {
         return year;
     }
     
+    /**
+     * set the type of a part
+     * @param type
+     */
     protected void setType(String type) {
         this.type = type;
     }
     
+    /**
+     * returns all relevant info on a part
+     * @return info
+     */
     protected String getInfo() {
         return info;
     }

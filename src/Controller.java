@@ -7,27 +7,33 @@ import java.util.ArrayList;
  * Lead Author(s):
  *
  * @author Anthony Bazalaki, Elias Zarate
- * <p>
+ * 
  * Class Responsibilities:
-   The Controller class cordinates between the end user, the model, and various other portions of our program.
+   The Controller class coordinates between the end user, the model, and various other portions of our program.
  */
 
 // controller is an Action Listener
 public class Controller implements ActionListener {
-    // the controller...
+    // Controller...
     // has a model
     private StoreModel model;
     // has a view
     private StoreView view;
     // has an array of partSelecteButtons of JButton type
     private JButton[] partSelectButtons;
-    //
+    // has a buyButton of JButton type
     private JButton buyButton;
+    // has a sell button of JButton type
     private JButton sellButton;
+    // has a store button of JButton type
     private JButton storeButton;
+    // has a home button of JButton type
     private JButton homeButton;
+    // has a 
     private Part currentPart;
+    // has an ArrayList of JCheckBoxes named checkBoxes
     private ArrayList<JCheckBox> checkBoxes;
+    // has a user
     private User user;
     
     

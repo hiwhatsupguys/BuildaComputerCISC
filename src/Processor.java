@@ -3,7 +3,7 @@
  * @author Anthony Bazalaki, Elias Zarate
  *
  * Class Responsibilities:
- *
+ * Distinguishes CPU and GPU as processors
  */
 public interface Processor {
     
@@ -11,6 +11,5 @@ public interface Processor {
 	 * OverClock the Computer Part
 	 * @return clockSpeedMhz
 	 */
-	
 	int getClockSpeedMHz();
 }

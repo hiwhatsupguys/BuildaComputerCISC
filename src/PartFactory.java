@@ -13,8 +13,10 @@ public class PartFactory {
     
     //private static final File partsListFile = new File("src/Inventory.csv");
 	// better to pass the file name to the methods than a file object
+	// The PartFactory class has a static partListFile  that it will read from
     private static final String partsListFile = "src/Inventory.csv";
     
+    // for testing purposes
     public static void main(String[] args) {
 //        makePartsFromList("src/Inventory.csv");
         try {
@@ -25,29 +27,41 @@ public class PartFactory {
     }
     
     /**
-     * testing, i have an idea Anthony B.
-     * update: IT WORKS
-     * this could be the highlight of this class
-     *
-     * @return
+     * makes specific Parts from a file that holds a parameter list for parts to be made
+     * @return partsList
      * @throws FileNotFoundException
      */
     public static ArrayList<Part> makePartsFromFile() {
+    	// a new ArrayList partsList to hold the parts being read from the file
         ArrayList<Part> partsList = new ArrayList<>();
+        // to hold the file
         File file;
+        // to read the file
         Scanner scanner = null;
+        // to hold the part being read
         Part part;
+        // to hold a line being read from the file
         String line;
         try {
+        	// open the file
             file = new File(partsListFile);
+            // start the reading the file
             scanner = new Scanner(file);
+            // to hold what is being read 
             String[] parameters;
+            // index
             int i = 0;
+            // while the scanner has a next line
             while (scanner.hasNextLine()) {
+            	// part is null (for now)
                 part = null;
+                // store the next line
                 line = scanner.nextLine();
+                // add the line into the array with a , splitting the line up
                 parameters = line.split(",");
+                // the part type of a the part to be made is the value stored in index 0
                 String partType = parameters[0];
+                // switch through the part types and make a new part for every case
                 switch (partType) {
                     case "GPU":
                         part = new GPU(parameters);
@@ -68,22 +82,28 @@ public class PartFactory {
                         part = new StorageDevice(parameters);
                         break;
                 }
+                // if part is not null
                 if (part != null) {
+                	// add the part to the partsList
                     partsList.add(part);
                 }
                  //VV uncomment to prove it works
                 //System.out.println(partsList.get(i).getInfo());
+                // increment through the index
                 i++;
             }
         } catch (FileNotFoundException e) {
-         
+        	// print out the error
         	System.err.println(e);
+        	// return an empty ArrayList of Parts
         	return new ArrayList<Part>();
         }
         finally
         {
+        	// if the scanner is not null
         	if(scanner != null)
         	{
+        		// close the scanner
         		scanner.close();
         	}
         }

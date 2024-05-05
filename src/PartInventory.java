@@ -6,59 +6,41 @@ import java.util.HashMap;
  * Lead Author(s):
  * @author Anthony Bazalaki, Elias Zarate
  * 
+ * Additional Resources:
+ * CREATING PARTS FROM FILE FUTURE RESOURCE:
+ * https://stackoverflow.com/questions/30564462/read-data-from-a-text-file-and-create-an-object
+ * 
  * Class Responsibilities:
+ * The PartInventory Class is responsible for keeping track of all existing parts the computer store 
  * 
  */
 
-// import the parts package in src
-
-
-// String: its part type name, e.g. Parts.GPU
-// Part: the specific type of part, e.g. RX7800XT
-// Integer: how many of the part there is
-// the partInventory class is responsible for keeping track of the store's inventory.
-
-// CREATING PARTS FROM FILE FUTURE RESOURCE:
-// https://stackoverflow.com/questions/30564462/read-data-from-a-text-file-and-create-an-object
-
 public class PartInventory {
-    
+    // has a number of part types
     private int numberOfPartTypes;
+    // has a inventory
     private HashMap<String, HashMap<Part, Integer>> inventory;
+    // the PartInvenotry class has a list of all part types
     private static final ArrayList<Part> allParts = PartFactory.makePartsFromFile();
-
-//    private final GPU RX7800XT = new GPU(
-//            "RX 7800 XT", "AMD",
-//            529.99, 2023,
-//            2430, 16);
-//    private final CPU R77800X3D = new CPU(
-//            "Ryzen 7 7800X3D", "AMD",
-//            382.11, 2023,
-//            4200);
     
+    /**
+     * public Constructor for PartInventory
+     */
     public PartInventory() {
+    	// inventory is a HasMap
         inventory = new HashMap<>();
         // add the base parts to all partInventories
         for (Part part : allParts) {
+        	// add the part to the inventory
             addPart(part);
         }
-//        addPart(RX7800XT);
-//        addPart(R77800X3D);
+        // the number of part types is equal the size of the inventory
         numberOfPartTypes = inventory.size();
     }
     
     /**
-     * create one or more parts based on the file that creates it, and then adds it to the inventory
-     *
-     * @param
+     * @return return the type of parts in the inventory
      */
-//    public void buildParts() {
-//        // partType + Inventory, e.g. "Gpu" + "Inventory"
-//        // a list of parts to be in here
-//        String type = part.getType();
-//        ArrayList<Part> partList = PartFactory.readPartsFromFile(type + "Inventory");
-//
-//    }
     public String[] getPartTypes() {
         return inventory.keySet().toArray(new String[0]);
     }
@@ -90,6 +72,11 @@ public class PartInventory {
         return parts.getOrDefault(part, 0);
     }
     
+    /**
+     * set the part count of a specific part to whatever is specified.
+     * @param part
+     * @param newCount
+     */
     public void setPartCount(Part part, int newCount) {
         String partType = part.getType();
         // if the partType (e.g. Parts.GPU) exists, return the hashmap. if not, return a new, empty hashmap

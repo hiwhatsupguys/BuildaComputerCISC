@@ -33,8 +33,8 @@ public class CPU extends Part implements Processor
 	}
 
 	/**
-	 * Overclock the CPU?
-	 * Note for Anthony: are we overclocking the CPU or?
+	 * return the clockspeed of a cpu
+	 * 
 	 * @return clockSpeedMhz
 	 */
 	@Override
@@ -43,7 +43,10 @@ public class CPU extends Part implements Processor
 		return clockSpeedMHz;
 	}
 
-	
+	/**
+	 * returns all relevant information on the computer part
+	 * @return info
+	 */
 	@Override
 	protected String getInfo()
 	{

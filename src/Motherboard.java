@@ -13,6 +13,10 @@ public class Motherboard extends Part {
     private int RAMSlots;
     // Might want to consider possible adding other fields for a Motherboard if we have extra time to do so.
     
+    /**
+     * public Constructor for a Motherboard that takes an array of strings
+     * @param parameters
+     */
     public Motherboard(String[] parameters) {
         super(parameters);
         this.RAMSlots = Integer.parseInt(parameters[5]);
