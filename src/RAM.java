@@ -8,7 +8,7 @@
 
 // RAM is a Part
 public class RAM extends Part {
-    // RAM has memory
+    // RAM has a memory size
     private int memoryGB;
     
     public RAM(String[] parameters) {
