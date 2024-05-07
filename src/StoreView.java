@@ -87,7 +87,8 @@ public class StoreView extends JFrame {
     private JPanel topButtonsPanel;
     private JPanel computerPartsPanel;
     private JPanel userPartsPanel;
-    private ArrayList<JCheckBox> checkBoxes;
+    private ArrayList<PartCheckBox> checkBoxes;
+    private JLabel currentComputerPartsLabel;
     
     /**
      * constructor for a store view
@@ -166,6 +167,9 @@ public class StoreView extends JFrame {
         storePanelHeight = (int) (HEIGHT * 0.92);
         storePanel.setPreferredSize(new Dimension(WIDTH, storePanelHeight));
 //        storePanel.setBackground(Color.white);
+        
+        // checkboxes
+        checkBoxes = new ArrayList<>();
         
         // partSelectButtons
         partSelectButtonsPanel = new JPanel();
@@ -270,18 +274,29 @@ public class StoreView extends JFrame {
      */
     private void setupHomePanel() {
         homePanel = new JPanel(new BorderLayout());
+        
+        // currentComputerPartsLabel setup
+        currentComputerPartsLabel = new JLabel();
+        currentComputerPartsLabel = new JLabel("", SwingConstants.LEFT);
+        currentComputerPartsLabel.setFont(new Font("Verdana", Font.PLAIN, 25));
+        
         // user's parts on the left
         // user's computer on the right (with the parts that are in the computer)
-        computerPartsPanel = new JPanel(new GridLayout(100, 1));
+        computerPartsPanel = new JPanel();
+        computerPartsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         computerPartsPanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
         computerPartsPanel.setBorder(panelBorder);
         computerPartsPanel.setBackground(Color.cyan);
+        computerPartsPanel.add(currentComputerPartsLabel);
+        // test
+//        currentComputerPartsLabel.setText("test");
+        
+        
+        // user panel setup
         userPartsPanel = new JPanel();
         userPartsPanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
         userPartsPanel.setBackground(Color.blue);
         userPartsPanel.setBorder(panelBorder);
-        
-        checkBoxes = new ArrayList<>();
         
         
         homePanel.add(userPartsPanel, BorderLayout.WEST);
@@ -340,14 +355,30 @@ public class StoreView extends JFrame {
      * updates changes in homePanel
      */
     private void updateHomePanel() {
-        User user = storeModel.getUser();
-        PartInventory inventory = user.getInventory();
-        ArrayList<Part> ownedParts = inventory.getAllOwnedParts();
+        
+        // check every part in computer, then add them to the JLabel
+        Computer computer = storeModel.getUser().getComputer();
+        String textToAdd = "";
+        ArrayList<String> partStrings = new ArrayList<>();
+        for (Part part : computer.getParts()) {
+            String partName = part.getName();
+            String partType = part.getType();
+            partStrings.add(partType + ": " + partName + "<br/>");
+            partStrings.sort(String::compareToIgnoreCase);
+        }
+        for (String partString : partStrings) {
+            textToAdd = textToAdd.concat(partString);
+        }
+        textToAdd = "<html>" + textToAdd + "</html>";
+        currentComputerPartsLabel.setText(textToAdd);
         
         // ADDING CHECKBOXES FROM USER INVENTORY!!!
         // CHECK IF THE CHECKBOX IS ALREADY THERE
         homePanel.revalidate();
     }
+
+//    public void addPartToComputerPanel(Part part) {
+//    }
     
     /**
      * switches the current panel (storePanel or homePanel)
@@ -369,7 +400,7 @@ public class StoreView extends JFrame {
     /**
      * @return
      */
-    public ArrayList<JCheckBox> getCheckBoxes() {
+    public ArrayList<PartCheckBox> getCheckBoxes() {
         return checkBoxes;
     }
     
@@ -448,14 +479,15 @@ public class StoreView extends JFrame {
     public void addCheckBox(Part partToAdd) {
         String textToAdd = partToAdd.toString();
         // checks if the checkbox is already there
-        for (JCheckBox checkBox1 : checkBoxes) {
+        for (PartCheckBox checkBox1 : checkBoxes) {
             // if the checkbox is there, then don't do anything
             if (checkBox1.getText().equals(textToAdd)) {
                 return;
             }
         }
         // add the checkbox to the panel
-        JCheckBox checkBoxToAdd = new JCheckBox(textToAdd);
+        PartCheckBox checkBoxToAdd = new PartCheckBox(partToAdd);
+        checkBoxToAdd.setText(textToAdd);
         checkBoxToAdd.addActionListener(controller);
         userPartsPanel.add(checkBoxToAdd);
         checkBoxes.add(checkBoxToAdd);
@@ -469,8 +501,8 @@ public class StoreView extends JFrame {
      */
     public void removeCheckBox(Part partToRemove) {
         String textToRemove = partToRemove.toString();
-        JCheckBox checkBoxToRemove = null;
-        for (JCheckBox checkBox1 : checkBoxes) {
+        PartCheckBox checkBoxToRemove = null;
+        for (PartCheckBox checkBox1 : checkBoxes) {
             if (checkBox1.getText().equals(textToRemove)) {
                 checkBoxToRemove = checkBox1;
             }
@@ -480,6 +512,7 @@ public class StoreView extends JFrame {
             checkBoxes.remove(checkBoxToRemove);
         }
     }
+    
     
     // for testing
 //    public void addCheckBox(JCheckBox checkBox) {

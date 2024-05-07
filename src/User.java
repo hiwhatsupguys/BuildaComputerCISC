@@ -1,14 +1,14 @@
 
 /**
  * Lead Author(s):
+ *
  * @author Anthony Bazalaki, Elias Zarate
- *
+ * <p>
  * Class Responsibilities:
- *
  */
 
 public class User {
-	// a User has a current balance
+    // a User has a current balance
     
     private double balance;
     // a User has a computer
@@ -18,12 +18,13 @@ public class User {
     private PartInventory partInventory = new PartInventory();
     
     public User() {
-    
+        computer = new Computer();
     }
     
     /**
      * getBalance:
      * This method will return the current balance of the User.
+     *
      * @return balance
      */
     public double getBalance() {
@@ -33,6 +34,7 @@ public class User {
     /**
      * setBalance:
      * This method will set the current balance of the User.
+     *
      * @param balance
      */
     public void setBalance(double balance) {
@@ -41,6 +43,10 @@ public class User {
     
     public PartInventory getInventory() {
         return partInventory;
+    }
+    
+    public Computer getComputer() {
+        return computer;
     }
     
 }

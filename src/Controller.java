@@ -7,9 +7,9 @@ import java.util.ArrayList;
  * Lead Author(s):
  *
  * @author Anthony Bazalaki, Elias Zarate
- * 
+ * <p>
  * Class Responsibilities:
-   The Controller class coordinates between the end user, the model, and various other portions of our program.
+ * The Controller class coordinates between the end user, the model, and various other portions of our program.
  */
 
 // controller is an Action Listener
@@ -32,9 +32,11 @@ public class Controller implements ActionListener {
     // has a 
     private Part currentPart;
     // has an ArrayList of JCheckBoxes named checkBoxes
-    private ArrayList<JCheckBox> checkBoxes;
+    private ArrayList<PartCheckBox> checkBoxes;
     // has a user
     private User user;
+    // has a computer
+    private Computer computer;
     
     
     /**
@@ -63,7 +65,8 @@ public class Controller implements ActionListener {
         homeButton = view.getHomeButton();
         currentPart = view.getCurrentPart();
         user = model.getUser();
-//        checkBoxes = view.getCheckBoxes();
+        checkBoxes = view.getCheckBoxes();
+        computer = user.getComputer();
         // loop over all part select buttons
         for (int i = 0; i < partSelectButtons.length; i++) {
             JButton currentButton = partSelectButtons[i];
@@ -79,7 +82,7 @@ public class Controller implements ActionListener {
             view.addCheckBox(currentPart);
 //            view.addCheckBox(new JCheckBox(currentPart.toString()));
             model.buy(currentPart);
-            model.getPartInventory().printDebugInfo();
+            user.getInventory().printDebugInfo();
         }
         // check if from sellButton
         if (e.getSource() == sellButton) {
@@ -88,7 +91,7 @@ public class Controller implements ActionListener {
             if (user.getInventory().getPartCount(currentPart) < 1) {
                 view.removeCheckBox(currentPart);
             }
-            model.getPartInventory().printDebugInfo();
+            user.getInventory().printDebugInfo();
         }
         // check if from storeButton
         if (e.getSource() == storeButton) {
@@ -97,13 +100,27 @@ public class Controller implements ActionListener {
         // check if from homeButton
         if (e.getSource() == homeButton) {
             view.setCurrentPanel(view.getHomePanel());
-            System.out.println(model.getUser().getInventory().getAllOwnedParts());
         }
-        // CHECKBOXES
-//        for (JCheckBox checkBox : checkBoxes) {
-//            if (e.getSource() == checkBox) {
-//            }
-//        }
+        // CHECKBOXES (NULL)
+        for (PartCheckBox checkBox : checkBoxes) {
+            // NULL for some reason...
+            Part part = checkBox.getPart();
+            if (e.getSource() == checkBox) {
+                if (!checkBox.isSelected()) {
+                    // if checkbox IS selected (deselect it)
+                    // remove part from computer
+                    computer.removePart(part);
+                } else {
+                    // if checkbox IS NOT selected (then select it)
+                    // only add part if computer has it
+                    if (!computer.hasPart(part)) {
+                        computer.addPart(part);
+                    } else {
+                        // if computer already has the part, then don't add it
+                    }
+                }
+            }
+        }
         
         view.update();
     }

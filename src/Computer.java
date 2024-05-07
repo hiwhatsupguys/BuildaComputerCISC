@@ -2,32 +2,55 @@ import java.util.ArrayList;
 
 /**
  * Lead Author(s):
- * 
+ *
  * @author Anthony Bazalaki, Elias Zarate
- * 
- *         Class Responsibilities:
- *         The Computer Class will keep track of a list of parts that when put
- *         together constitute a computer.
- *         A User(Customer) will buy a computer comprised of parts they have
- *         selected.
- * 
+ * <p>
+ * Class Responsibilities:
+ * The Computer Class will keep track of a list of parts that when put
+ * together constitute a computer.
+ * A User(Customer) will buy a computer comprised of parts they have
+ * selected.
  */
 
-public class Computer
-{
-	// a computer has parts
-	private ArrayList<Part> computerParts;
-
-	/**
-	 * The Computer constructor takes a ArrayList of type part to build the
-	 * computer
-	 * 
-	 * @param partsList
-	 */
-	public Computer(ArrayList<Part> partsList)
-	{
-		computerParts = partsList;
-	}
+public class Computer {
+    // a computer has parts
+    private ArrayList<Part> parts;
+    
+    /**
+     * The Computer constructor takes a ArrayList of type part to build the
+     * computer
+     */
+    public Computer() {
+        parts = new ArrayList<>();
+    }
+    
+    public void addPart(Part part) {
+        parts.add(part);
+    }
+    
+    public void removePart(Part part) {
+        for (int i = 0; i < parts.size(); i++) {
+            Part partToCheck = parts.get(i);
+            // if part is the same as partToCheck
+            if (part.getName().equals(partToCheck.getName())) {
+                parts.remove(i);
+                return;
+            }
+        }
+    }
+    
+    public ArrayList<Part> getParts() {
+        return parts;
+    }
+    
+    public boolean hasPart(Part partToCheck) {
+        for (Part part : parts) {
+            if (part.getName().equals(partToCheck.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 //	/**
 //	 * The getPerformanceRating method should return a value indicative of how a
