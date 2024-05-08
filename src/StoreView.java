@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -230,6 +232,17 @@ public class StoreView extends JFrame {
         // buy/sell buttons
         buyButton = new JButton("Buy");
         buyButton.addActionListener(controller);
+		// testing making listeners for buy buttons
+		// buyButton.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent e)
+		// {
+		// // TODO Auto-generated method stub
+		// storeModel.buy(currentPart);
+		// }}
+		// );
+        
         sellButton = new JButton("Sell");
         sellButton.addActionListener(controller);
         buySellButtonsPanel = new JPanel();

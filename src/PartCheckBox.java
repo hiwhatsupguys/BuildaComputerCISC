@@ -13,6 +13,7 @@ public class PartCheckBox extends JCheckBox {
     // has-a Part
     private Part part;
     
+    //
     public PartCheckBox(Part part) {
         super();
         this.part = part;
