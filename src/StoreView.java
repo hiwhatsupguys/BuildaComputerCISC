@@ -189,8 +189,17 @@ public class StoreView extends JFrame {
         partSelectButtonsPanel.setLayout(gridLayout);
 //        buttonsPanel.setPreferredSize(new Dimension(100, 100));
         for (int i = 0; i < numberOfPartTypes; i++) {
-            JButton button = new JButton(partTypes[i]);
-            button.addActionListener(controller);
+            String partType = partTypes[i];
+            JButton button = new JButton(partType);
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // if the source comes from the button that says "GPU, CPU, etc."
+                    // show the corresponding part types in the specs panel
+                    setCurrentPartType(partType);
+                    updateSpecsPanel();
+                }
+            });
             button.setPreferredSize(new Dimension(100, 100));
             button.setFont(new Font("Verdana", Font.PLAIN, 20));
             partSelectButtonsPanel.add(button);
@@ -231,20 +240,34 @@ public class StoreView extends JFrame {
         
         // buy/sell buttons
         buyButton = new JButton("Buy");
-        buyButton.addActionListener(controller);
-		// testing making listeners for buy buttons
-		// buyButton.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e)
-		// {
-		// // TODO Auto-generated method stub
-		// storeModel.buy(currentPart);
-		// }}
-		// );
+//         testing making listeners for buy buttons
+        buyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addCheckBox(currentPart);
+                storeModel.buy(currentPart);
+                updateSpecsPanel();
+                updateTopPanel();
+                updateHomePanel();
+                // update();
+            }
+        });
         
         sellButton = new JButton("Sell");
-        sellButton.addActionListener(controller);
+        sellButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                storeModel.sell(currentPart);
+                if (storeModel.getUser().getInventory().getPartCount(currentPart) < 1) {
+                    removeCheckBox(currentPart);
+                }
+                updateHomePanel();
+                updateSpecsPanel();
+                updateTopPanel();
+//                storeModel.getUser().getInventory().printDebugInfo();
+                // update();
+            }
+        });
         buySellButtonsPanel = new JPanel();
         buySellButtonsPanel.setLayout(new FlowLayout());
         // makes it transparent
@@ -266,8 +289,19 @@ public class StoreView extends JFrame {
         topButtonsPanel.setPreferredSize(new Dimension(WIDTH / 2, topPanelHeight));
         storeButton = new JButton("Store");
         homeButton = new JButton("Home");
-        storeButton.addActionListener(controller);
-        homeButton.addActionListener(controller);
+        storeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setCurrentPanel(getStorePanel());
+                updateSpecsPanel();
+            }
+        });
+        homeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setCurrentPanel(getHomePanel());
+            }
+        });
         topButtonsPanel.add(storeButton);
         topButtonsPanel.add(homeButton);
         
@@ -501,7 +535,29 @@ public class StoreView extends JFrame {
         // add the checkbox to the panel
         PartCheckBox checkBoxToAdd = new PartCheckBox(partToAdd);
         checkBoxToAdd.setText(textToAdd);
-        checkBoxToAdd.addActionListener(controller);
+        checkBoxToAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Part part = checkBoxToAdd.getPart();
+                Computer computer = storeModel.getUser().getComputer();
+                if (e.getSource() == checkBoxToAdd) {
+                    if (!checkBoxToAdd.isSelected()) {
+                        // if checkbox IS selected (deselect it)
+                        // remove part from computer
+                        computer.removePart(part);
+                    } else {
+                        // if checkbox IS NOT selected (then select it)
+                        // only add part if computer has it
+                        if (!computer.hasPart(part)) {
+                            computer.addPart(part);
+                        } else {
+                            // if computer already has the part, then don't add it
+                        }
+                    }
+                }
+                updateHomePanel();
+            }
+        });
         userPartsPanel.add(checkBoxToAdd);
         checkBoxes.add(checkBoxToAdd);
     }

@@ -58,71 +58,71 @@ public class Controller implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        partSelectButtons = view.getPartSelectButtons();
-        buyButton = view.getBuyButton();
-        sellButton = view.getSellButton();
-        storeButton = view.getStoreButton();
-        homeButton = view.getHomeButton();
-        currentPart = view.getCurrentPart();
-        user = model.getUser();
-        checkBoxes = view.getCheckBoxes();
-        computer = user.getComputer();
+//        partSelect
+//        buyButton = view.getBuyButton();
+//        sellButton = view.getSellButton();
+//        storeButton = view.getStoreButton();
+//        homeButton = view.getHomeButton();
+//        currentPart = view.getCurrentPart();
+//        user = model.getUser();
+//        checkBoxes = view.getCheckBoxes();
+//        computer = user.getComputer();
         // loop over all part select buttons
-        for (int i = 0; i < partSelectButtons.length; i++) {
-            JButton currentButton = partSelectButtons[i];
-            // if the source comes from the button that says "GPU, CPU, etc."
-            if (e.getSource() == currentButton) {
-                String partType = currentButton.getText();
-                // show the corresponding part types in the specs panel
-                view.setCurrentPartType(partType);
-            }
-        }
-        // check if from buyButton
-        if (e.getSource() == buyButton) {
-            view.addCheckBox(currentPart);
-//            view.addCheckBox(new JCheckBox(currentPart.toString()));
-            model.buy(currentPart);
-            user.getInventory().printDebugInfo();
-        }
-        // check if from sellButton
-        if (e.getSource() == sellButton) {
-            System.out.println(currentPart);
-            model.sell(currentPart);
-            if (user.getInventory().getPartCount(currentPart) < 1) {
-                view.removeCheckBox(currentPart);
-            }
-            user.getInventory().printDebugInfo();
-        }
-        // check if from storeButton
-        if (e.getSource() == storeButton) {
-            view.setCurrentPanel(view.getStorePanel());
-        }
-        // check if from homeButton
-        if (e.getSource() == homeButton) {
-            view.setCurrentPanel(view.getHomePanel());
-        }
-        // CHECKBOXES (NULL)
-        for (PartCheckBox checkBox : checkBoxes) {
-            // NULL for some reason...
-            Part part = checkBox.getPart();
-            if (e.getSource() == checkBox) {
-                if (!checkBox.isSelected()) {
-                    // if checkbox IS selected (deselect it)
-                    // remove part from computer
-                    computer.removePart(part);
-                } else {
-                    // if checkbox IS NOT selected (then select it)
-                    // only add part if computer has it
-                    if (!computer.hasPart(part)) {
-                        computer.addPart(part);
-                    } else {
-                        // if computer already has the part, then don't add it
-                    }
-                }
-            }
-        }
+//        for (int i = 0; i < partSelectButtons.length; i++) {
+//            JButton currentButton = partSelectButtons[i];
+//            // if the source comes from the button that says "GPU, CPU, etc."
+//            if (e.getSource() == currentButton) {
+//                String partType = currentButton.getText();
+//                // show the corresponding part types in the specs panel
+//                view.setCurrentPartType(partType);
+//            }
+//        }
+//        // check if from buyButton
+//        if (e.getSource() == buyButton) {
+//            view.addCheckBox(currentPart);
+////            view.addCheckBox(new JCheckBox(currentPart.toString()));
+//            model.buy(currentPart);
+//            user.getInventory().printDebugInfo();
+//        }
+//        // check if from sellButton
+//        if (e.getSource() == sellButton) {
+//            System.out.println(currentPart);
+//            model.sell(currentPart);
+//            if (user.getInventory().getPartCount(currentPart) < 1) {
+//                view.removeCheckBox(currentPart);
+//            }
+//            user.getInventory().printDebugInfo();
+//        }
+//        // check if from storeButton
+//        if (e.getSource() == storeButton) {
+//            view.setCurrentPanel(view.getStorePanel());
+//        }
+//        // check if from homeButton
+//        if (e.getSource() == homeButton) {
+//            view.setCurrentPanel(view.getHomePanel());
+//        }
+//        // CHECKBOXES (NULL)
+//        for (PartCheckBox checkBox : checkBoxes) {
+//            // NULL for some reason...
+//            Part part = checkBox.getPart();
+//            if (e.getSource() == checkBox) {
+//                if (!checkBox.isSelected()) {
+//                    // if checkbox IS selected (deselect it)
+//                    // remove part from computer
+//                    computer.removePart(part);
+//                } else {
+//                    // if checkbox IS NOT selected (then select it)
+//                    // only add part if computer has it
+//                    if (!computer.hasPart(part)) {
+//                        computer.addPart(part);
+//                    } else {
+//                        // if computer already has the part, then don't add it
+//                    }
+//                }
+//            }
+//        }
         
-        view.update();
+//        view.update();
     }
     
 }
