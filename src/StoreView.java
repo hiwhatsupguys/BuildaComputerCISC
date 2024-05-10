@@ -79,6 +79,7 @@ public class StoreView extends JFrame {
     private JButton homeButton;
     // a JLable partInfoLable
     private JLabel partInfoLabel;
+    private JTextArea partInfoTextArea;
     private JLabel balanceLabel;
     // a Part currentPart
     private Part currentPart;
@@ -90,7 +91,8 @@ public class StoreView extends JFrame {
     private JPanel computerPartsPanel;
     private JPanel userPartsPanel;
     private ArrayList<PartCheckBox> checkBoxes;
-    private JLabel currentComputerPartsLabel;
+    //    private JLabel currentComputerPartsLabel;
+    private JTextArea currentComputerPartsTextArea;
     
     /**
      * constructor for a store view
@@ -197,7 +199,7 @@ public class StoreView extends JFrame {
                     // if the source comes from the button that says "GPU, CPU, etc."
                     // show the corresponding part types in the specs panel
                     setCurrentPartType(partType);
-                    updateSpecsPanel();
+                    updateComboBox();
                 }
             });
             button.setPreferredSize(new Dimension(100, 100));
@@ -229,14 +231,27 @@ public class StoreView extends JFrame {
         specsPanel.setBackground(panelColor);
         
         // part info
-        partInfoLabel = new JLabel("", SwingConstants.LEFT);
-        partInfoLabel.setFont(new Font("Verdana", Font.PLAIN, 25));
+        partInfoTextArea = new JTextArea();
+        partInfoTextArea.setFont(new Font("Verdana", Font.PLAIN, 25));
+        partInfoTextArea.setForeground(Color.white);
+        partInfoTextArea.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
+        partInfoTextArea.setEditable(false);
+        partInfoTextArea.setOpaque(false);
+        partInfoTextArea.setLineWrap(true);
+        partInfoTextArea.setWrapStyleWord(true);
+        partInfoTextArea.setFocusable(false);
+
+
+//        partInfoLabel = new JLabel("", SwingConstants.LEFT);
+//        partInfoLabel.setFont(new Font("Verdana", Font.PLAIN, 25));
         partInfoPanel = new JPanel();
         FlowLayout partInfoPanelLayout = new FlowLayout();
         partInfoPanelLayout.setAlignment(FlowLayout.LEFT);
         partInfoPanel.setLayout(partInfoPanelLayout);
-//        partInfoPanel.setOpaque(false);
-        partInfoPanel.add(partInfoLabel);
+        partInfoPanel.setOpaque(false);
+//        partInfoPanel.add(partInfoLabel);
+        partInfoPanel.add(partInfoTextArea);
+        
         
         // buy/sell buttons
         buyButton = new JButton("Buy");
@@ -246,7 +261,6 @@ public class StoreView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 addCheckBox(currentPart);
                 storeModel.buy(currentPart);
-                updateSpecsPanel();
                 updateTopPanel();
                 updateHomePanel();
                 // update();
@@ -262,7 +276,6 @@ public class StoreView extends JFrame {
                     removeCheckBox(currentPart);
                 }
                 updateHomePanel();
-                updateSpecsPanel();
                 updateTopPanel();
 //                storeModel.getUser().getInventory().printDebugInfo();
                 // update();
@@ -275,6 +288,28 @@ public class StoreView extends JFrame {
         // add buttons to panel
         buySellButtonsPanel.add(buyButton);
         buySellButtonsPanel.add(sellButton);
+        
+        partSelectComboBox = new JComboBox();
+        partSelectComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentPart = (Part) partSelectComboBox.getSelectedItem();
+                if (currentPart != null) {
+                    String info = currentPart.getInfo();
+//            info = "<html>" + info + "</html>";
+//            info = info.replace(",\n", "<br/>");
+//            partInfoLabel.setText(info);
+                    partInfoTextArea.setText(info);
+                }
+                specsPanel.revalidate();
+                System.out.println(currentPart);
+//                updateSpecsPanel();
+            }
+        });
+        
+        specsPanel.add(partSelectComboBox, BorderLayout.NORTH);
+        specsPanel.add(buySellButtonsPanel, BorderLayout.SOUTH);
+        specsPanel.add(partInfoPanel, BorderLayout.CENTER);
     }
     
     /**
@@ -293,7 +328,7 @@ public class StoreView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setCurrentPanel(getStorePanel());
-                updateSpecsPanel();
+                updateComboBox();
             }
         });
         homeButton.addActionListener(new ActionListener() {
@@ -322,10 +357,19 @@ public class StoreView extends JFrame {
     private void setupHomePanel() {
         homePanel = new JPanel(new BorderLayout());
         
+        // currentComputerPartsTextArea setup
+        currentComputerPartsTextArea = new JTextArea();
+        currentComputerPartsTextArea.setFont(new Font("Verdana", Font.PLAIN, 25));
+        currentComputerPartsTextArea.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
+        currentComputerPartsTextArea.setEditable(false);
+        currentComputerPartsTextArea.setOpaque(false);
+        currentComputerPartsTextArea.setLineWrap(true);
+        currentComputerPartsTextArea.setWrapStyleWord(true);
+        currentComputerPartsTextArea.setFocusable(false);
+        
         // currentComputerPartsLabel setup
-        currentComputerPartsLabel = new JLabel();
-        currentComputerPartsLabel = new JLabel("", SwingConstants.LEFT);
-        currentComputerPartsLabel.setFont(new Font("Verdana", Font.PLAIN, 25));
+//        currentComputerPartsLabel = new JLabel("", SwingConstants.LEFT);
+//        currentComputerPartsLabel.setFont(new Font("Verdana", Font.PLAIN, 25));
         
         // user's parts on the left
         // user's computer on the right (with the parts that are in the computer)
@@ -334,7 +378,8 @@ public class StoreView extends JFrame {
         computerPartsPanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
         computerPartsPanel.setBorder(panelBorder);
         computerPartsPanel.setBackground(Color.cyan);
-        computerPartsPanel.add(currentComputerPartsLabel);
+//        computerPartsPanel.add(currentComputerPartsLabel);
+        computerPartsPanel.add(currentComputerPartsTextArea);
         // test
 //        currentComputerPartsLabel.setText("test");
         
@@ -354,7 +399,7 @@ public class StoreView extends JFrame {
      * the update method updates the store view in its entirety
      */
     public void update() {
-        updateSpecsPanel();
+        updateComboBox();
         updateTopPanel();
         updateHomePanel();
     }
@@ -363,29 +408,24 @@ public class StoreView extends JFrame {
      * The updateSpecsPanel is updates the specs panel whenever a user is looking through the store's
      * selection of parts
      */
-    private void updateSpecsPanel() {
+    private void updateComboBox() {
         // removes all components from specsPanel
-        specsPanel.removeAll();
+//        specsPanel.removeAll();
+//        specsPanel.remove(partSelectComboBox);
+        
         Part[] partsOfType = partInventory.getPartsOfType(currentPartType);
-        partSelectComboBox = new JComboBox(partsOfType);
-        currentPart = (Part) partSelectComboBox.getSelectedItem();
-        if (currentPart != null) {
-            String info = currentPart.getInfo();
-            info = "<html>" + info + "</html>";
-            info = info.replace(",\n", "<br/>");
-            partInfoLabel.setText(info);
+        partSelectComboBox.removeAllItems();
+        for (Part part : partsOfType) {
+            partSelectComboBox.addItem(part);
         }
         
-        specsPanel.add(partSelectComboBox, BorderLayout.NORTH);
-        specsPanel.add(buySellButtonsPanel, BorderLayout.SOUTH);
-        specsPanel.add(partInfoPanel, BorderLayout.CENTER);
+        currentPart = (Part) partSelectComboBox.getSelectedItem();
         
         // need to call this method to show new components on already visible panel, see this link:
         // https://stackoverflow.com/questions/26853598/jpanel-not-showing-components
         specsPanel.revalidate();
 //        specsPanel.repaint();
     }
-    
     
     /**
      * The updateTopPanel method updates a user's balance after a part has been selected
@@ -410,14 +450,16 @@ public class StoreView extends JFrame {
         for (Part part : computer.getParts()) {
             String partName = part.getName();
             String partType = part.getType();
-            partStrings.add(partType + ": " + partName + "<br/>");
+//            partStrings.add(partType + ": " + partName + "<br/>");
+            partStrings.add(partType + ": " + partName + "\n");
             partStrings.sort(String::compareToIgnoreCase);
         }
         for (String partString : partStrings) {
             textToAdd = textToAdd.concat(partString);
         }
-        textToAdd = "<html>" + textToAdd + "</html>";
-        currentComputerPartsLabel.setText(textToAdd);
+//        textToAdd = "<html>" + textToAdd + "</html>";
+//        currentComputerPartsLabel.setText(textToAdd);
+        currentComputerPartsTextArea.setText(textToAdd);
         
         // ADDING CHECKBOXES FROM USER INVENTORY!!!
         // CHECK IF THE CHECKBOX IS ALREADY THERE
