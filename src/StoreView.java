@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Lead Author(s):
@@ -106,6 +107,8 @@ public class StoreView extends JFrame
 	// private JLabel currentComputerPartsLabel;
 	// a JTextAtrea for the current computer parts displayed
 	private JTextArea currentComputerPartsTextArea;
+    // a checkout button
+    private JButton checkoutButton;
 
 	/**
 	 * constructor for a store view
@@ -133,7 +136,7 @@ public class StoreView extends JFrame
 		HEIGHT = 450;
 		partInventory = storeModel.getPartInventory();
 		controller = new Controller(storeModel, this);
-		partTypes = partInventory.getPartTypes();
+		partTypes = PartInventory.getPartTypes().toArray(new String[0]);
 		numberOfPartTypes = partInventory.getNumberOfPartTypes();
 		partSelectButtons = new JButton[numberOfPartTypes];
 		partSelectComboBox = new JComboBox();
@@ -357,6 +360,7 @@ public class StoreView extends JFrame
 				.setPreferredSize(new Dimension(WIDTH / 2, topPanelHeight));
 		storeButton = new JButton("Store");
 		homeButton = new JButton("Home");
+		checkoutButton = new JButton("Checkout");
 		storeButton.addActionListener(new ActionListener()
 		{
 			@Override
@@ -374,8 +378,35 @@ public class StoreView extends JFrame
 				setCurrentPanel(getHomePanel());
 			}
 		});
+		checkoutButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) throws IncompleteComputerException
+			{
+				Computer computer = storeModel.getUser().getComputer();
+				// if the computer is not full
+				if (!computer.hasRequiredParts()) {
+					// throw exception
+					String partTypesString = String.join(", ", partTypes);
+					throw new IncompleteComputerException("Computer is not complete. Add all required parts to computer: " +
+                            partTypesString);
+				}
+				String info = "";
+				info += "Computer:\n";
+				info += computer.toString();
+				info += "Exit?";
+				int response = JOptionPane.showConfirmDialog(null, info, "", JOptionPane.YES_NO_OPTION);
+				if (response == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				} else if (response == JOptionPane.NO_OPTION) {
+				
+				}
+			}
+		});
 		topButtonsPanel.add(storeButton);
 		topButtonsPanel.add(homeButton);
+		topButtonsPanel.add(checkoutButton);
+		
 
 		// topPanel
 		topPanel = new JPanel();

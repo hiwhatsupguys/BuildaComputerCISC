@@ -41,6 +41,7 @@ public class Computer {
     
     /**
      * returns an ArrayList of parts that are inside the computer
+     *
      * @return parts
      */
     public ArrayList<Part> getParts() {
@@ -49,6 +50,7 @@ public class Computer {
     
     /**
      * checks if the computer has certain part type
+     *
      * @param partToCheck
      * @return true or false depending on the search
      */
@@ -59,6 +61,27 @@ public class Computer {
             }
         }
         return false;
+    }
+    
+    public boolean hasRequiredParts() {
+        ArrayList<String> partTypes = PartInventory.getPartTypes();
+        ArrayList<String> containedPartTypes = new ArrayList<>();
+        for (String partType : partTypes) {
+            for (Part part : parts) {
+                if (partType.equals(part.getType())) {
+                    containedPartTypes.add(partType);
+                }
+            }
+        }
+        return partTypes.equals(containedPartTypes);
+    }
+    
+    public String toString() {
+        String string = "";
+        for (Part part : parts) {
+            string += part.getType() + ": " + part.getName() + "\n";
+        }
+        return string;
     }
 
 //	/**

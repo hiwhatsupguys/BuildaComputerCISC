@@ -41,8 +41,17 @@ public class PartInventory {
     /**
      * @return return the type of parts in the inventory
      */
-    public String[] getPartTypes() {
-        return inventory.keySet().toArray(new String[0]);
+    public static ArrayList<String> getPartTypes() {
+        ArrayList<String> partTypes = new ArrayList<>();
+        String currentPartType = "";
+        for (Part part : allParts) {
+            currentPartType = part.getType();
+            if (!partTypes.contains(currentPartType)) {
+                partTypes.add(currentPartType);
+            }
+        }
+        return partTypes;
+//        return inventory.keySet().toArray(new String[0]);
     }
     
     /**
