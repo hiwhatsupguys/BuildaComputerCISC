@@ -4,12 +4,11 @@ import java.util.ArrayList;
  * @author Anthony Bazalaki, Elias Zarate
  *
  * Class Responsibilities:
+ * StoreModel will handle all logic that is need for the program to work
  *
  */
 public class StoreModel {
 
-    
-    
     // list of parts
     // private HashMap<Part, Integer> inventory = new HashMap<>();
     private PartInventory partInventory = new PartInventory();
@@ -17,8 +16,9 @@ public class StoreModel {
     // private int numberOfPartTypes;
     // A store has a user (consider changing this to customer instead)
     private User user;
-    
+    // a StoreModel has a final initial balance
     private final int initialBalance;
+    // a StoreModel has an initial stock of 3
     private int initialStoreStock = 3;
     
     public StoreModel() {
@@ -34,6 +34,10 @@ public class StoreModel {
         }
     }
     
+    /**
+     * returns the parts inventory
+     * @return partInventory
+     */
     public PartInventory getPartInventory() {
         return partInventory;
     }
@@ -59,6 +63,10 @@ public class StoreModel {
         user.getInventory().addPart(part);
     }
     
+    /**
+     * this method allows the user to return a part they no longer desire
+     * @param part
+     */
     public void sell(Part part) {
         double balance = user.getBalance();
         double price = part.getPrice();
@@ -72,6 +80,10 @@ public class StoreModel {
         user.getInventory().decrementPartCount(part);
     }
     
+    /**
+     * this method returns the user of the StoreModel
+     * @return user
+     */
     public User getUser() {
         return user;
     }

@@ -11,7 +11,7 @@ import java.util.HashMap;
  * https://stackoverflow.com/questions/30564462/read-data-from-a-text-file-and-create-an-object
  * 
  * Class Responsibilities:
- * The PartInventory Class is responsible for keeping track of all existing parts the computer store 
+ * The PartInventory Class is responsible for keeping track of all existing parts in the computer store 
  * 
  */
 

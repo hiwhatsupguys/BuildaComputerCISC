@@ -8,9 +8,14 @@
 
 // RAM is a Part
 public class RAM extends Part {
+	
     // RAM has a memory size
     private int memoryGB;
     
+    /**
+     * Constructor for the purposes of building a RAM object via the use of file I/O.
+     * @param parameters
+     */
     public RAM(String[] parameters) {
         super(parameters);
         this.memoryGB = Integer.parseInt(parameters[5]);
@@ -32,7 +37,8 @@ public class RAM extends Part {
     }
     
     /**
-     *
+     * the getInfo() method returns all information pertaining to a RAM object.
+     *@return info
      */
     @Override
     protected String getInfo() {

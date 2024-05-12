@@ -39,10 +39,19 @@ public class Computer {
         }
     }
     
+    /**
+     * returns an ArrayList of parts that are inside the computer
+     * @return parts
+     */
     public ArrayList<Part> getParts() {
         return parts;
     }
     
+    /**
+     * checks if the computer has certain part type
+     * @param partToCheck
+     * @return true or false depending on the search
+     */
     public boolean hasPart(Part partToCheck) {
         for (Part part : parts) {
             if (part.getName().equals(partToCheck.getName())) {

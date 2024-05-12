@@ -9,11 +9,9 @@
 
 public class User {
     // a User has a current balance
-    
     private double balance;
     // a User has a computer
     private Computer computer;
-    // is this needed in User?
     // the user could have a separate inventory of parts, for example, if they want to swap parts
     private PartInventory partInventory = new PartInventory();
     
@@ -41,10 +39,18 @@ public class User {
         this.balance = balance;
     }
     
+    /**
+     * returns user's part inventory
+     * @return partInventory
+     */
     public PartInventory getInventory() {
         return partInventory;
     }
     
+    /**
+     * returns the computer a user has
+     * @return computer
+     */
     public Computer getComputer() {
         return computer;
     }

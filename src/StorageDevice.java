@@ -13,7 +13,8 @@ public class StorageDevice extends Part {
     }
     
     /**
-     *
+     * the getInfo method return all information pertaining to a StorageDevice
+     * @return info
      */
     @Override
     protected String getInfo() {

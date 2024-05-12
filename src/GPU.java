@@ -3,7 +3,7 @@
  * @author Anthony Bazalaki, Elias Zarate
  * 
  * Class Responsibilities:
- * 
+ * The GPU class serves to make GPU objects that will be used in a Computer class object (a computer).
  */
 // a GPU is a Part
 // a GPU can Process/ is a Processor

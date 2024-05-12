@@ -3,7 +3,7 @@
  * @author Anthony Bazalaki, Elias Zarate
  * 
  * Class Responsibilities:
- * 
+ * The CPU class serves to make CPU objects that will be used in a Computer Class Object (a computer).
  */
 
 // a CPU is a Part

@@ -3,7 +3,7 @@
  * @author Anthony Bazalaki, Elias Zarate
  * 
  * Class Responsibilities:
- * 
+ * in the even a user does not have sufficient enough funds to purchase the computer
  */
 
 

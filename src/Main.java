@@ -3,6 +3,7 @@
  * @author Anthony Bazalaki, Elias Zarate
  *
  * Class Responsibilities:
+ * The main class will launch our program
  *
  */
 

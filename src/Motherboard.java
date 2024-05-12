@@ -4,7 +4,7 @@
  * @author Anthony Bazalaki, Elias Zarate
  * <p>
  * Class Responsibilities:
- * The Motherboard class serves to make motherboard objects that will be used in the Computer class.
+ * The Motherboard class serves to make motherboard objects that will be used in a Computer class object (a computer).
  */
 
 // a Motherboard is a Part
