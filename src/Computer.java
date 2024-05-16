@@ -15,6 +15,8 @@ import java.util.ArrayList;
 public class Computer {
     // a computer has parts
     private ArrayList<Part> parts;
+    // has-a requiredPartTypes
+    private ArrayList<String> requiredPartTypes = new ArrayList<>(PartInventory.getPartTypes());
     
     /**
      * The Computer constructor takes a ArrayList of type part to build the
@@ -26,14 +28,19 @@ public class Computer {
     
     public void addPart(Part part) {
         parts.add(part);
+        requiredPartTypes.remove(part.getType());
+        requiredPartTypes.sort(String::compareToIgnoreCase);
     }
     
     public void removePart(Part part) {
+        // loop over all computer's parts
         for (int i = 0; i < parts.size(); i++) {
             Part partToCheck = parts.get(i);
             // if part is the same as partToCheck
             if (part.getName().equals(partToCheck.getName())) {
                 parts.remove(i);
+                requiredPartTypes.add(part.getType());
+                requiredPartTypes.sort(String::compareToIgnoreCase);
                 return;
             }
         }
@@ -63,17 +70,19 @@ public class Computer {
         return false;
     }
     
-    public boolean hasRequiredParts() {
-        ArrayList<String> partTypes = PartInventory.getPartTypes();
-        ArrayList<String> containedPartTypes = new ArrayList<>();
-        for (String partType : partTypes) {
-            for (Part part : parts) {
-                if (partType.equals(part.getType())) {
-                    containedPartTypes.add(partType);
-                }
-            }
-        }
-        return partTypes.equals(containedPartTypes);
+    public ArrayList<String> getRequiredPartTypes() {
+        
+        return requiredPartTypes;
+        
+    }
+    
+    /**
+     * returns if the computer has all required partTypes
+     * @return
+     */
+    public boolean hasRequiredPartTypes() {
+        // return true if the computer needs no required part types
+        return getRequiredPartTypes().isEmpty();
     }
     
     public String toString() {

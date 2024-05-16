@@ -1,9 +1,8 @@
 import javax.swing.*;
 
 public class IncompleteComputerException extends RuntimeException {
-    IncompleteComputerException(String message) {
+    IncompleteComputerException(String message, Computer computer) {
         super(message);
-        String partTypesString = String.join(", ", PartInventory.getPartTypes());
-        JOptionPane.showMessageDialog(null, "Please add all required parts: " + partTypesString);
+        JOptionPane.showMessageDialog(null, message);
     }
 }
