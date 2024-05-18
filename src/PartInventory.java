@@ -30,10 +30,10 @@ public class PartInventory {
         // inventory is a HasMap
         inventory = new HashMap<>();
         // add the base parts to all partInventories
-        for (Part part : getAllParts()) {
-            // add the part to the inventory
-            addPart(part);
-        }
+//        for (Part part : getAllParts()) {
+//            // add the part to the inventory
+//            addPart(part);
+//        }
         // the number of part types is equal the size of the inventory
     }
     
@@ -114,9 +114,12 @@ public class PartInventory {
      * @param newCount
      */
     public void setPartCount(Part part, int newCount) {
-        Part partInInventory = getPart(part);
         // puts in new part if doesn't contain, puts in new count if does contain
-        inventory.put(partInInventory, newCount);
+        if (containsPart(part)) {
+            // if the part is already in inventory, only change the count of the part that is in there
+            part = getPart(part);
+        }
+        inventory.put(part, newCount);
         
     }
     
@@ -138,6 +141,11 @@ public class PartInventory {
         }
     }
     
+    public void removePart(Part part) {
+        Part partInInventory = getPart(part);
+        inventory.remove(partInInventory);
+    }
+    
     /**
      * remove 1 part from inventory
      * if it doesn't exist, or count is already 0, do nothing. (maybe throw exception?)
@@ -147,10 +155,11 @@ public class PartInventory {
      */
     public void decrementPartCount(Part part) {
         Part partInInventory = getPart(part);
-        if (getPartCount(partInInventory) > 0) {
-            setPartCount(partInInventory, getPartCount(partInInventory) - 1);
+        int partCount = getPartCount(partInInventory);
+        if (partCount <= 1) {
+            removePart(part);
         } else {
-            //@TODO maybe throw exception?
+            setPartCount(partInInventory, partCount - 1);
         }
     }
     

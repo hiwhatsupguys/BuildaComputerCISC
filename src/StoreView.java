@@ -132,7 +132,7 @@ public class StoreView extends JFrame {
         panelColor = Color.darkGray;
         WIDTH = 800;
         HEIGHT = 450;
-        storeInventory = storeModel.getPartInventory();
+        storeInventory = storeModel.getStoreInventory();
         controller = new Controller(storeModel, this);
         partTypes = PartInventory.getAllPartTypes();
         numberOfPartTypes = PartInventory.getTotalNumberOfPartTypes();
@@ -282,10 +282,9 @@ public class StoreView extends JFrame {
         buyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addCheckBox(currentPart);
                 storeModel.buy(currentPart);
+                addCheckBox(currentPart);
                 updateTopPanel();
-                updateHomePanel();
                 // update();
             }
         });
@@ -299,7 +298,6 @@ public class StoreView extends JFrame {
                         .getPartCount(currentPart) < 1) {
                     removeCheckBox(currentPart);
                 }
-                updateHomePanel();
                 updateTopPanel();
             }
         });
@@ -359,6 +357,7 @@ public class StoreView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setCurrentPanel(getHomePanel());
+                updateHomePanel();
             }
         });
         checkoutButton.addActionListener(new ActionListener() {
@@ -457,7 +456,6 @@ public class StoreView extends JFrame {
     public void update() {
         updateComboBox();
         updateTopPanel();
-        updateHomePanel();
     }
     
     /**
@@ -503,7 +501,8 @@ public class StoreView extends JFrame {
     private void updateHomePanel() {
         
         // check every part in computer, then add them to the JLabel
-        String textToAdd = "";
+        StringBuilder textToAdd = new StringBuilder();
+        textToAdd.append("Parts on Computer: \n");
         ArrayList<String> partStrings = new ArrayList<>();
         for (Part part : computer.getParts()) {
             String partName = part.getName();
@@ -513,11 +512,11 @@ public class StoreView extends JFrame {
             partStrings.sort(String::compareToIgnoreCase);
         }
         for (String partString : partStrings) {
-            textToAdd = textToAdd.concat(partString);
+            textToAdd.append(partString);
         }
         // textToAdd = "<html>" + textToAdd + "</html>";
         // currentComputerPartsLabel.setText(textToAdd);
-        currentComputerPartsTextArea.setText(textToAdd);
+        currentComputerPartsTextArea.setText(textToAdd.toString());
         
         // ADDING CHECKBOXES FROM USER INVENTORY!!!
         // CHECK IF THE CHECKBOX IS ALREADY THERE
@@ -692,17 +691,29 @@ public class StoreView extends JFrame {
      * @param partToRemove
      */
     public void removeCheckBox(Part partToRemove) {
-        String textToRemove = partToRemove.toString();
-        PartCheckBox checkBoxToRemove = null;
-        for (PartCheckBox checkBox1 : checkBoxes) {
-            if (checkBox1.getText().equals(textToRemove)) {
-                checkBoxToRemove = checkBox1;
+        String checkBoxPartName;
+        String partName;
+        for (PartCheckBox checkBox : checkBoxes) {
+            checkBoxPartName = checkBox.getPartName();
+            partName = partToRemove.getName();
+            if (checkBoxPartName.equals(partName)) {
+                checkBoxes.remove(checkBox);
+                userPartsPanel.remove(checkBox);
+                return;
+//                break;
             }
         }
-        if (checkBoxToRemove != null) {
-            userPartsPanel.remove(checkBoxToRemove);
-            checkBoxes.remove(checkBoxToRemove);
-        }
+//        String textToRemove = partToRemove.toString();
+//        PartCheckBox checkBoxToRemove = null;
+//        for (PartCheckBox checkBox1 : checkBoxes) {
+//            if (checkBox1.getText().equals(textToRemove)) {
+//                checkBoxToRemove = checkBox1;
+//            }
+//        }
+//        if (checkBoxToRemove != null) {
+//            userPartsPanel.remove(checkBoxToRemove);
+//            checkBoxes.remove(checkBoxToRemove);
+//        }
     }
     
     
