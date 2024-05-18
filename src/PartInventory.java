@@ -4,63 +4,95 @@ import java.util.HashMap;
 
 /**
  * Lead Author(s):
+ *
  * @author Anthony Bazalaki, Elias Zarate
- * 
+ * <p>
  * Additional Resources:
  * CREATING PARTS FROM FILE FUTURE RESOURCE:
  * https://stackoverflow.com/questions/30564462/read-data-from-a-text-file-and-create-an-object
- * 
+ * <p>
  * Class Responsibilities:
- * The PartInventory Class is responsible for keeping track of all existing parts in the computer store 
- * 
+ * The PartInventory Class is responsible for keeping track of all existing parts in the computer store
  */
 
 public class PartInventory {
     // has a number of part types
     private int numberOfPartTypes;
     // has a inventory
-    private HashMap<String, HashMap<Part, Integer>> inventory;
+    private HashMap<Part, Integer> inventory;
     // the PartInvenotry class has a list of all part types
-    private static final ArrayList<Part> allParts = PartFactory.makePartsFromFile();
+    private static final ArrayList<Part> ALL_PARTS = PartFactory.makePartsFromFile();
     
     /**
      * public Constructor for PartInventory
      */
     public PartInventory() {
-    	// inventory is a HasMap
+        // inventory is a HasMap
         inventory = new HashMap<>();
         // add the base parts to all partInventories
-        for (Part part : allParts) {
-        	// add the part to the inventory
+        for (Part part : getAllParts()) {
+            // add the part to the inventory
             addPart(part);
         }
         // the number of part types is equal the size of the inventory
-        numberOfPartTypes = inventory.size();
+    }
+    
+    public ArrayList<Part> getParts() {
+        return new ArrayList<>(inventory.keySet());
+    }
+    
+    public Part getPart(String partName) {
+        for (Part part : inventory.keySet()) {
+            if (part.getName().equals(partName)) return part;
+        }
+        return null;
+    }
+    
+    public Part getPart(Part part) {
+        return getPart(part.getName());
     }
     
     /**
      * @return return the type of parts in the inventory
      */
-    public static ArrayList<String> getPartTypes() {
+    public String[] getPartTypes() {
         ArrayList<String> partTypes = new ArrayList<>();
-        String currentPartType = "";
-        for (Part part : allParts) {
-            currentPartType = part.getType();
-            if (!partTypes.contains(currentPartType)) {
-                partTypes.add(currentPartType);
+        ArrayList<Part> parts = getParts();
+        for (Part part : parts) {
+            String partType = part.getType();
+            if (!partTypes.contains(partType)) {
+                partTypes.add(partType);
+            }
+        }
+        return partTypes.toArray(new String[0]);
+    }
+    
+    public static ArrayList<String> getAllPartTypes() {
+        ArrayList<String> partTypes = new ArrayList<>();
+        for (Part part : ALL_PARTS) {
+            String partType = part.getType();
+            if (!partTypes.contains(partType)) {
+                partTypes.add(partType);
             }
         }
         return partTypes;
-//        return inventory.keySet().toArray(new String[0]);
+    }
+    
+    public int getNumberOfPartTypes() {
+        return this.getPartTypes().length;
+    }
+    
+    public boolean containsPart(Part part) {
+        return inventory.containsKey(getPart(part.getName()));
     }
     
     /**
-     * gets the number of the types of parts, e.g. Motherboard, Parts.GPU, CPU, etc.
+     * gets the number of the types of parts, e.g. Motherboard, GPU, CPU, etc.
      *
      * @return numberOfPartTypes
      */
-    public int getNumberOfPartTypes() {
-        return numberOfPartTypes;
+    public static int getTotalNumberOfPartTypes() {
+        return getAllPartTypes().size();
     }
     
     /**
@@ -71,28 +103,20 @@ public class PartInventory {
      * @return
      */
     public int getPartCount(Part part) {
-        String partType = part.getType();
-        // if the partType (e.g. "GPU") is not there, return 0
-        if (!inventory.containsKey(partType)) return 0;
-        
-        // if it is there, get the part-count hashmap
-        HashMap<Part, Integer> parts = inventory.get(partType);
-        // return the count, and if the hashmap isn't there, return 0
-        return parts.getOrDefault(part, 0);
+        Part partInInventory = getPart(part);
+        return inventory.getOrDefault(partInInventory, 0);
     }
     
     /**
      * set the part count of a specific part to whatever is specified.
+     *
      * @param part
      * @param newCount
      */
     public void setPartCount(Part part, int newCount) {
-        String partType = part.getType();
-        // if the partType (e.g. Parts.GPU) exists, return the hashmap. if not, return a new, empty hashmap
-        HashMap<Part, Integer> parts;
-        parts = inventory.getOrDefault(partType, new HashMap<>());
-        // put the part with its new count into the hashmap
-        parts.put(part, newCount);
+        Part partInInventory = getPart(part);
+        // puts in new part if doesn't contain, puts in new count if does contain
+        inventory.put(partInInventory, newCount);
         
     }
     
@@ -104,16 +128,14 @@ public class PartInventory {
      * @param part
      */
     public void addPart(Part part) {
-        // if part type exists in HM
-        // if part itself exists in HM
-        String partType = part.getType();
-        HashMap<Part, Integer> parts = inventory.getOrDefault(partType, new HashMap<>());
-        if (parts.containsKey(part)) {
-            parts.put(part, parts.get(part) + 1);
+        // CHANGE (maybe need to add the part from ALL_PARTS instead)
+        if (containsPart(part)) {
+            Part partInInventory = getPart(part);
+            int previousCount = inventory.get(partInInventory);
+            setPartCount(partInInventory, previousCount + 1);
         } else {
-            parts.put(part, 0);
+            inventory.put(part, 1);
         }
-        inventory.put(partType, parts);
     }
     
     /**
@@ -124,21 +146,26 @@ public class PartInventory {
      * @param part
      */
     public void decrementPartCount(Part part) {
-        if (getPartCount(part) > 0) {
-            setPartCount(part, getPartCount(part) - 1);
+        Part partInInventory = getPart(part);
+        if (getPartCount(partInInventory) > 0) {
+            setPartCount(partInInventory, getPartCount(partInInventory) - 1);
         } else {
             //@TODO maybe throw exception?
         }
     }
     
-    public Part[] getPartsOfType(String partType) {
-        HashMap<Part, Integer> partMap = inventory.getOrDefault(partType, new HashMap<>());
-        Part[] parts = partMap.keySet().toArray(new Part[0]);
-        return parts;
+    public ArrayList<Part> getPartsOfType(String partType) {
+        ArrayList<Part> partsOfType = new ArrayList<>();
+        for (Part part : getParts()) {
+            if (part.getType().equals(partType)) {
+                partsOfType.add(part);
+            }
+        }
+        return partsOfType;
     }
     
     public static ArrayList<Part> getAllParts() {
-        return allParts;
+        return ALL_PARTS;
     }
     
     /**
@@ -147,16 +174,7 @@ public class PartInventory {
      * @return partsList
      */
     public ArrayList<Part> getAllOwnedParts() {
-        ArrayList<Part> partsList = new ArrayList<>();
-        for (String partType : inventory.keySet()) {
-            HashMap<Part, Integer> key = inventory.get(partType);
-            for (Part part : key.keySet()) {
-                if (key.get(part) > 0) {
-                    partsList.add(part);
-                }
-            }
-        }
-        return partsList;
+        return null;
     }
     
     /**
@@ -166,17 +184,8 @@ public class PartInventory {
      */
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        String partString = "";
-        HashMap<Part, Integer> map;
-        int count = 0;
-        for (String partType : inventory.keySet()) {
-            map = inventory.get(partType);
-            for (Part part : map.keySet()) {
-                partString = part.toString();
-                count = inventory.get(partType).get(part);
-                stringBuilder.append("Part: " + partString + ", Count: " + count);
-                stringBuilder.append("\n");
-            }
+        for (Part part : getParts()) {
+            stringBuilder.append("Part: " + part.getName() + ", Count: " + getPartCount(part));
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();

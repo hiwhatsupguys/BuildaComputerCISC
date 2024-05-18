@@ -62,9 +62,9 @@ public class StoreView extends JFrame {
     // a Controller controller
     private Controller controller;
     // a PartInventory partInventory
-    private PartInventory partInventory;
+    private PartInventory storeInventory;
     // an Array of strings partTypes
-    private String[] partTypes;
+    private ArrayList<String> partTypes;
     // a number of part types
     private int numberOfPartTypes;
     // a JComboBox partSelectComboBox
@@ -107,6 +107,10 @@ public class StoreView extends JFrame {
     private JTextArea currentComputerPartsTextArea;
     // a checkout button
     private JButton checkoutButton;
+    private User user;
+    private PartInventory userInventory;
+    private Computer computer;
+    private ArrayList<Part> computerParts;
     
     /**
      * constructor for a store view
@@ -128,14 +132,18 @@ public class StoreView extends JFrame {
         panelColor = Color.darkGray;
         WIDTH = 800;
         HEIGHT = 450;
-        partInventory = storeModel.getPartInventory();
+        storeInventory = storeModel.getPartInventory();
         controller = new Controller(storeModel, this);
-        partTypes = PartInventory.getPartTypes().toArray(new String[0]);
-        numberOfPartTypes = partInventory.getNumberOfPartTypes();
+        partTypes = PartInventory.getAllPartTypes();
+        numberOfPartTypes = PartInventory.getTotalNumberOfPartTypes();
         partSelectButtons = new JButton[numberOfPartTypes];
         partSelectComboBox = new JComboBox();
         // border (color and thickness)
         panelBorder = BorderFactory.createLineBorder(borderColor, 4);
+        user = storeModel.getUser();
+        userInventory = user.getInventory();
+        computer = user.getComputer();
+        computerParts = computer.getParts();
         
         setTitle("Build a Computer");
         setSize(WIDTH, HEIGHT);
@@ -205,7 +213,7 @@ public class StoreView extends JFrame {
         partSelectButtonsPanel.setLayout(gridLayout);
         // buttonsPanel.setPreferredSize(new Dimension(100, 100));
         for (int i = 0; i < numberOfPartTypes; i++) {
-            String partType = partTypes[i];
+            String partType = partTypes.get(i);
             JButton button = new JButton(partType);
             button.addActionListener(new ActionListener() {
                 @Override
@@ -287,14 +295,12 @@ public class StoreView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 storeModel.sell(currentPart);
-                if (storeModel.getUser().getInventory()
+                if (userInventory
                         .getPartCount(currentPart) < 1) {
                     removeCheckBox(currentPart);
                 }
                 updateHomePanel();
                 updateTopPanel();
-                // storeModel.getUser().getInventory().printDebugInfo();
-                // update();
             }
         });
         buySellButtonsPanel = new JPanel();
@@ -318,7 +324,7 @@ public class StoreView extends JFrame {
                     partInfoTextArea.setText(info);
                 }
                 specsPanel.revalidate();
-                System.out.println(currentPart);
+//                System.out.println(currentPart);
                 // updateSpecsPanel();
             }
         });
@@ -358,7 +364,6 @@ public class StoreView extends JFrame {
         checkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) throws IncompleteComputerException {
-                Computer computer = storeModel.getUser().getComputer();
                 // if the computer is not full
                 if (!computer.hasRequiredPartTypes()) {
                     // throw exception
@@ -411,6 +416,7 @@ public class StoreView extends JFrame {
                 .setFont(new Font("Verdana", Font.PLAIN, 25));
         currentComputerPartsTextArea
                 .setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
+        currentComputerPartsTextArea.setForeground(Color.white);
         currentComputerPartsTextArea.setEditable(false);
         currentComputerPartsTextArea.setOpaque(false);
         currentComputerPartsTextArea.setLineWrap(true);
@@ -429,7 +435,7 @@ public class StoreView extends JFrame {
         computerPartsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         computerPartsPanel.setPreferredSize(new Dimension(WIDTH / 2, HEIGHT));
         computerPartsPanel.setBorder(panelBorder);
-        computerPartsPanel.setBackground(Color.cyan);
+        computerPartsPanel.setBackground(Color.blue);
         // computerPartsPanel.add(currentComputerPartsLabel);
         computerPartsPanel.add(currentComputerPartsTextArea);
         // test
@@ -464,7 +470,7 @@ public class StoreView extends JFrame {
         // specsPanel.removeAll();
         // specsPanel.remove(partSelectComboBox);
         
-        Part[] partsOfType = partInventory.getPartsOfType(currentPartType);
+        ArrayList<Part> partsOfType = storeInventory.getPartsOfType(currentPartType);
         partSelectComboBox.removeAllItems();
         for (Part part : partsOfType) {
             partSelectComboBox.addItem(part);
@@ -485,7 +491,7 @@ public class StoreView extends JFrame {
      */
     private void updateTopPanel() {
         // UPDATE BALANCE
-        balance = storeModel.getUser().getBalance();
+        balance = user.getBalance();
         String balanceString = balanceFormat.format(balance);
         balanceLabel.setText("Balance: " + balanceString + "   ");
         topPanel.revalidate();
@@ -497,7 +503,6 @@ public class StoreView extends JFrame {
     private void updateHomePanel() {
         
         // check every part in computer, then add them to the JLabel
-        Computer computer = storeModel.getUser().getComputer();
         String textToAdd = "";
         ArrayList<String> partStrings = new ArrayList<>();
         for (Part part : computer.getParts()) {
@@ -638,11 +643,15 @@ public class StoreView extends JFrame {
      * @param partToAdd
      */
     public void addCheckBox(Part partToAdd) {
-        String textToAdd = partToAdd.toString();
+        String partName = partToAdd.toString();
+        int partCount = userInventory.getPartCount(partToAdd);
+        String textToAdd = partToAdd + " - " + partCount;
+//        boolean alreadyExists = false;
         // checks if the checkbox is already there
         for (PartCheckBox checkBox1 : checkBoxes) {
-            // if the checkbox is there, then don't do anything
-            if (checkBox1.getText().equals(textToAdd)) {
+            // if the checkbox with the same name is already there, then don't do anything
+            if (checkBox1.getPartName().equals(partName)) {
+                checkBox1.setText(textToAdd);
                 return;
             }
         }
@@ -653,7 +662,6 @@ public class StoreView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Part part = checkBoxToAdd.getPart();
-                Computer computer = storeModel.getUser().getComputer();
                 if (e.getSource() == checkBoxToAdd) {
                     if (!checkBoxToAdd.isSelected()) {
                         // if checkbox IS selected (deselect it)
@@ -697,17 +705,5 @@ public class StoreView extends JFrame {
         }
     }
     
-    // for testing
-    // public void addCheckBox(JCheckBox checkBox) {
-    // // checks if the checkbox is already there
-    // for (JCheckBox checkBox1 : checkBoxes) {
-    // // if the checkbox is there, then don't do anything
-    // if (checkBox1.getText().equals(currentPart.toString())) return;
-    // }
-    // // add the checkbox to the panel
-    // checkBox.addActionListener(controller);
-    // userPartsPanel.add(checkBox);
-    // checkBoxes.add(checkBox);
-    // }
     
 }

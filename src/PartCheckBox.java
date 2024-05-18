@@ -31,6 +31,10 @@ public class PartCheckBox extends JCheckBox {
         return part;
     }
     
+    public String getPartName() {
+        return part.getName();
+    }
+    
     /**
      * set the part that the checkbox is associated with
      * @param part

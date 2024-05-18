@@ -16,7 +16,7 @@ public class Computer {
     // a computer has parts
     private ArrayList<Part> parts;
     // has-a requiredPartTypes
-    private ArrayList<String> requiredPartTypes = new ArrayList<>(PartInventory.getPartTypes());
+    private ArrayList<String> requiredPartTypes = new ArrayList<>(PartInventory.getAllPartTypes());
     
     /**
      * The Computer constructor takes a ArrayList of type part to build the
