@@ -312,17 +312,16 @@ public class StoreView extends JFrame {
         partSelectComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // TODO as a test: click on GPU, then click on the combobox, then click on "TEST". then click on
+                //  another partType, such as cpu, then click on GPU again. it doesn't stay on TEST, and we want it
+                //  to do that. use debug mode to fix
                 currentPart = (Part) partSelectComboBox.getSelectedItem();
                 if (currentPart != null) {
                     String info = currentPart.getInfo();
-                    // info = "<html>" + info + "</html>";
-                    // info = info.replace(",\n", "<br/>");
-                    // partInfoLabel.setText(info);
                     partInfoTextArea.setText(info);
                 }
+                System.out.println(currentPart);
                 specsPanel.revalidate();
-//                System.out.println(currentPart);
-                // updateSpecsPanel();
             }
         });
         
@@ -471,9 +470,13 @@ public class StoreView extends JFrame {
         for (Part part : partsOfType) {
             partSelectComboBox.addItem(part);
         }
-        partSelectComboBox.setSelectedItem(currentPart);
+        // TODO this plays a part in the minor issue
+        if (currentPart.getType().equals(currentPartType)) {
+//            partSelectComboBox.setSelectedItem(currentPart);
+        } else {
+            currentPart = (Part) partSelectComboBox.getSelectedItem();
+        }
         
-        currentPart = (Part) partSelectComboBox.getSelectedItem();
         
         // need to call this method to show new components on already visible
         // panel, see this link:
