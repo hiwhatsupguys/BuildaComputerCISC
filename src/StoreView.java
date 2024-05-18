@@ -349,14 +349,12 @@ public class StoreView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setCurrentPanel(getStorePanel());
-                updateComboBox();
             }
         });
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setCurrentPanel(getHomePanel());
-                updateHomePanel();
             }
         });
         checkoutButton.addActionListener(new ActionListener() {
@@ -372,10 +370,10 @@ public class StoreView extends JFrame {
                             "computer: \n" +
                             requiredPartsString, computer);
                 }
-                String info = "";
-                info += "Computer:\n";
-                info += computer.toString();
-                info += "Exit?";
+                StringBuilder info = new StringBuilder();
+                info.append("Computer:\n");
+                info.append(computer.toString());
+                info.append("Exit?");
                 int response = JOptionPane.showConfirmDialog(null, info, "", JOptionPane.YES_NO_OPTION);
                 if (response == JOptionPane.YES_OPTION) {
                     System.exit(0);
@@ -447,6 +445,7 @@ public class StoreView extends JFrame {
         
         homePanel.add(userPartsPanel, BorderLayout.WEST);
         homePanel.add(computerPartsPanel, BorderLayout.EAST);
+        updateHomePanel();
     }
     
     /**
@@ -503,17 +502,7 @@ public class StoreView extends JFrame {
         // check every part in computer, then add them to the JLabel
         StringBuilder textToAdd = new StringBuilder();
         textToAdd.append("Parts on Computer: \n");
-        ArrayList<String> partStrings = new ArrayList<>();
-        for (Part part : computer.getParts()) {
-            String partName = part.getName();
-            String partType = part.getType();
-            // partStrings.add(partType + ": " + partName + "<br/>");
-            partStrings.add(partType + ": " + partName + "\n");
-            partStrings.sort(String::compareToIgnoreCase);
-        }
-        for (String partString : partStrings) {
-            textToAdd.append(partString);
-        }
+        textToAdd.append(computer.toString());
         // textToAdd = "<html>" + textToAdd + "</html>";
         // currentComputerPartsLabel.setText(textToAdd);
         currentComputerPartsTextArea.setText(textToAdd.toString());

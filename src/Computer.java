@@ -78,6 +78,7 @@ public class Computer {
     
     /**
      * returns if the computer has all required partTypes
+     *
      * @return
      */
     public boolean hasRequiredPartTypes() {
@@ -86,11 +87,11 @@ public class Computer {
     }
     
     public String toString() {
-        String string = "";
+        StringBuilder info = new StringBuilder();
         for (Part part : parts) {
-            string += part.getType() + ": " + part.getName() + "\n";
+            info.append(part.getType() + ": " + part.getName() + "\n");
         }
-        return string;
+        return info.toString();
     }
 
 //	/**
