@@ -68,7 +68,7 @@ public class StoreView extends JFrame {
     // a number of part types
     private int numberOfPartTypes;
     // a JComboBox partSelectComboBox
-    private JComboBox partSelectComboBox;
+    private PartSelectComboBox partSelectComboBox;
     // a JButton buyButton (for buying things in the store)
     private JButton buyButton;
     // a JButton sellButton (for selling things to the store/returning items
@@ -137,7 +137,7 @@ public class StoreView extends JFrame {
         partTypes = PartInventory.getAllPartTypes();
         numberOfPartTypes = PartInventory.getTotalNumberOfPartTypes();
         partSelectButtons = new JButton[numberOfPartTypes];
-        partSelectComboBox = new JComboBox();
+        partSelectComboBox = new PartSelectComboBox();
         // border (color and thickness)
         panelBorder = BorderFactory.createLineBorder(borderColor, 4);
         user = storeModel.getUser();
@@ -309,7 +309,6 @@ public class StoreView extends JFrame {
         buySellButtonsPanel.add(buyButton);
         buySellButtonsPanel.add(sellButton);
         
-        partSelectComboBox = new JComboBox();
         partSelectComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -473,6 +472,7 @@ public class StoreView extends JFrame {
         for (Part part : partsOfType) {
             partSelectComboBox.addItem(part);
         }
+        partSelectComboBox.setSelectedItem(currentPart);
         
         currentPart = (Part) partSelectComboBox.getSelectedItem();
         

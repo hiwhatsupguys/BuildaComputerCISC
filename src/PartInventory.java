@@ -45,12 +45,23 @@ public class PartInventory {
         for (Part part : inventory.keySet()) {
             if (part.getName().equals(partName)) return part;
         }
-        return null;
+        throw new NullPointerException("part not found");
     }
     
-    public Part getPart(Part part) {
-        return getPart(part.getName());
+    public Part getPart(Part part) throws NullPointerException {
+        if (containsPart(part)) {
+            return part;
+        }
+        throw new NullPointerException("part not found");
     }
+    
+    public boolean containsPart(Part part) {
+        for (Part partToCheck : getParts()) {
+            if (partToCheck.equals(part)) return true;
+        }
+        return false;
+    }
+    
     
     /**
      * @return return the type of parts in the inventory
@@ -82,9 +93,6 @@ public class PartInventory {
         return this.getPartTypes().length;
     }
     
-    public boolean containsPart(Part part) {
-        return inventory.containsKey(getPart(part.getName()));
-    }
     
     /**
      * gets the number of the types of parts, e.g. Motherboard, GPU, CPU, etc.
@@ -103,8 +111,10 @@ public class PartInventory {
      * @return
      */
     public int getPartCount(Part part) {
-        Part partInInventory = getPart(part);
-        return inventory.getOrDefault(partInInventory, 0);
+        if (containsPart(part)) {
+            return inventory.getOrDefault(getPart(part), 0);
+        }
+        return 0;
     }
     
     /**

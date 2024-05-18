@@ -41,10 +41,11 @@ public abstract class Part {
         info = "Name: " + this.name + ",\nManufacturer: " + this.manufacturer + ",\nPrice: "
                 + this.price + ",\nYear: " + this.year;
     }
-
+    
     /**
      * public Constructor for a Part Object that takes a String array for parameters
      * this makes everything infinitely easier for partFactory, see new GPU constructor in GPU class
+     *
      * @param parameters
      */
     public Part(String[] parameters) {
@@ -56,9 +57,14 @@ public abstract class Part {
         info = "Name: " + this.name + ",\nManufacturer: " + this.manufacturer + ",\nPrice: "
                 + this.price + ",\nYear: " + this.year;
     }
-
+    
+    public boolean equals(Part part) {
+        return this.getName().equals(part.getName());
+    }
+    
     /**
      * returns the price of a part
+     *
      * @return price
      */
     public double getPrice() {
@@ -67,6 +73,7 @@ public abstract class Part {
     
     /**
      * returns the name of a part
+     *
      * @return name
      */
     public String getName() {
@@ -76,6 +83,7 @@ public abstract class Part {
     /**
      * makes it so when the part is parsed (for example, in the comboBox), instead of returning [Object]@1234, it will
      * return the object with its name as its string name variable (see comboBox)
+     *
      * @return the part's name
      */
     public String toString() {
@@ -84,6 +92,7 @@ public abstract class Part {
     
     /**
      * returns the manufacturer
+     *
      * @return manufacturer
      */
     public String getManufacturer() {
@@ -91,8 +100,9 @@ public abstract class Part {
     }
     
     /**
-     * returns the type of a part 
+     * returns the type of a part
      * example: GPU, CPU, Motherboard, PowerSupply, etc.
+     *
      * @return
      */
     public String getType() {
@@ -101,6 +111,7 @@ public abstract class Part {
     
     /**
      * returns the year a part was manufactured in
+     *
      * @return year
      */
     public int getYear() {
@@ -109,6 +120,7 @@ public abstract class Part {
     
     /**
      * set the type of a part
+     *
      * @param type
      */
     protected void setType(String type) {
@@ -117,6 +129,7 @@ public abstract class Part {
     
     /**
      * returns all relevant info on a part
+     *
      * @return info
      */
     protected String getInfo() {
