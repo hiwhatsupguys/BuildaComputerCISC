@@ -3,6 +3,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -285,7 +287,6 @@ public class StoreView extends JFrame {
                 storeModel.buy(currentPart);
                 addCheckBox(currentPart);
                 updateTopPanel();
-                // update();
             }
         });
         
@@ -309,18 +310,16 @@ public class StoreView extends JFrame {
         buySellButtonsPanel.add(buyButton);
         buySellButtonsPanel.add(sellButton);
         
-        partSelectComboBox.addActionListener(new ActionListener() {
+        partSelectComboBox.addItemListener(new ItemListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO as a test: click on GPU, then click on the combobox, then click on "TEST". then click on
-                //  another partType, such as cpu, then click on GPU again. it doesn't stay on TEST, and we want it
-                //  to do that. use debug mode to fix
-                currentPart = (Part) partSelectComboBox.getSelectedItem();
-                if (currentPart != null) {
-                    String info = currentPart.getInfo();
-                    partInfoTextArea.setText(info);
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    currentPart = (Part) partSelectComboBox.getSelectedItem();
+                    if (currentPart != null) {
+                        partInfoTextArea.setText(currentPart.getInfo());
+                    }
+                    System.out.println(currentPart);
                 }
-                System.out.println(currentPart);
                 specsPanel.revalidate();
             }
         });
@@ -469,12 +468,6 @@ public class StoreView extends JFrame {
         partSelectComboBox.removeAllItems();
         for (Part part : partsOfType) {
             partSelectComboBox.addItem(part);
-        }
-        // TODO this plays a part in the minor issue
-        if (currentPart.getType().equals(currentPartType)) {
-//            partSelectComboBox.setSelectedItem(currentPart);
-        } else {
-            currentPart = (Part) partSelectComboBox.getSelectedItem();
         }
         
         
@@ -691,21 +684,10 @@ public class StoreView extends JFrame {
             if (checkBoxPartName.equals(partName)) {
                 checkBoxes.remove(checkBox);
                 userPartsPanel.remove(checkBox);
+                updateHomePanel();
                 return;
-//                break;
             }
         }
-//        String textToRemove = partToRemove.toString();
-//        PartCheckBox checkBoxToRemove = null;
-//        for (PartCheckBox checkBox1 : checkBoxes) {
-//            if (checkBox1.getText().equals(textToRemove)) {
-//                checkBoxToRemove = checkBox1;
-//            }
-//        }
-//        if (checkBoxToRemove != null) {
-//            userPartsPanel.remove(checkBoxToRemove);
-//            checkBoxes.remove(checkBoxToRemove);
-//        }
     }
     
     
