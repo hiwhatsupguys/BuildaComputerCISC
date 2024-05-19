@@ -316,7 +316,6 @@ public class StoreView extends JFrame {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     currentPart = (Part) partSelectComboBox.getSelectedItem();
                     if (currentPart != null) {
-                        // todo
                         partInfoTextArea.setText(currentPart.getInfo());
                     }
 //                    System.out.println(currentPart);

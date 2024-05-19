@@ -25,7 +25,7 @@ public class StoreModel {
     
     public StoreModel() {
         user = new User();
-        initialBalance = 2000;
+        initialBalance = 4000;
         user.setBalance(initialBalance);
         userInventory = user.getInventory();
         ArrayList<Part> allParts = PartInventory.getAllParts();
