@@ -43,7 +43,7 @@ public class RAM extends Part {
     @Override
     protected String getInfo() {
         String info = super.getInfo();
-        info += ",\nMemory: " + memoryGB;
+        info += "\nMemory: " + memoryGB;
         return info;
     }
     

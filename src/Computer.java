@@ -46,6 +46,15 @@ public class Computer {
         }
     }
     
+    public boolean hasPartType(Part partToCheck) {
+        for (Part part : parts) {
+            if (part.getType().equals(partToCheck.getType())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /**
      * returns an ArrayList of parts that are inside the computer
      *

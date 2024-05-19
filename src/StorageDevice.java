@@ -19,7 +19,7 @@ public class StorageDevice extends Part {
     @Override
     protected String getInfo() {
         String info = super.getInfo();
-        info += ",\nStorage Type: " + storageType + ",\nStorage (TB): " + storageTB;
+        info += "\nStorage Type: " + storageType + "\nStorage (TB): " + storageTB;
         return info;
     }
 }

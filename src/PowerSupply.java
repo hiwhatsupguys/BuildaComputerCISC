@@ -25,7 +25,7 @@ public class PowerSupply extends Part {
     @Override
     protected String getInfo() {
         String info = super.getInfo();
-        info += ",\nPower Efficiency: " + powerEfficiency;
+        info += "\nPower Efficiency: " + powerEfficiency;
         return info;
     }
 }

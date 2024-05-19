@@ -316,9 +316,10 @@ public class StoreView extends JFrame {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     currentPart = (Part) partSelectComboBox.getSelectedItem();
                     if (currentPart != null) {
+                        // todo
                         partInfoTextArea.setText(currentPart.getInfo());
                     }
-                    System.out.println(currentPart);
+//                    System.out.println(currentPart);
                 }
                 specsPanel.revalidate();
             }
@@ -371,7 +372,7 @@ public class StoreView extends JFrame {
                 StringBuilder info = new StringBuilder();
                 info.append("Computer:\n");
                 info.append(computer.toString());
-                info.append("Exit?");
+                info.append("\nExit?");
                 int response = JOptionPane.showConfirmDialog(null, info, "", JOptionPane.YES_NO_OPTION);
                 if (response == JOptionPane.YES_OPTION) {
                     System.exit(0);
@@ -645,23 +646,39 @@ public class StoreView extends JFrame {
         checkBoxToAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Part part = checkBoxToAdd.getPart();
                 if (e.getSource() == checkBoxToAdd) {
-                    if (!checkBoxToAdd.isSelected()) {
-                        // if checkbox IS selected (deselect it)
-                        // remove part from computer
-                        computer.removePart(part);
-                    } else {
-                        // if checkbox IS NOT selected (then select it)
-                        // only add part if computer has it
-                        if (!computer.hasPart(part)) {
+                    Part part = checkBoxToAdd.getPart();
+                    if (checkBoxToAdd.isSelected()) {
+                        // checkbox is selected
+//                        System.out.println(computer.hasPartType(part));
+                        if (!computer.hasPartType(part)) {
+                            // computer doesn't have parttype
                             computer.addPart(part);
+                            for (PartCheckBox pcb : checkBoxes) {
+                                // if selected checkbox part type is equal to this checkbox's type
+                                // and if it isn't the same part as this one
+                                if (pcb.getPart().getType().equals(part.getType()) && !pcb.getPart().equals(part)) {
+                                    pcb.setEnabled(false);
+                                }
+                            }
                         } else {
-                            // if computer already has the part, then don't add
-                            // it
+                            // computer has parttype
+                            // won't happen
                         }
+                    } else {
+                        // checkbox deselected
+                        computer.removePart(part);
+                        for (PartCheckBox pcb : checkBoxes) {
+                            // if selected checkbox part type is equal to this checkbox's type
+                            // and if it isn't the same part as this one
+                            if (pcb.getPart().getType().equals(part.getType()) && !pcb.getPart().equals(part)) {
+                                pcb.setEnabled(true);
+                            }
+                        }
+                        
                     }
                 }
+                
                 updateHomePanel();
             }
         });

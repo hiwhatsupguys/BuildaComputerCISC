@@ -44,7 +44,7 @@ public class GPU extends Part implements Processor {
     @Override
     public String getInfo() {
         String info = super.getInfo();
-        info += ",\nClock Speed (MHz): " + clockSpeedMHz + ",\nMemory (GB): " + memoryGB;
+        info += "\nClock Speed (MHz): " + clockSpeedMHz + "\nMemory (GB): " + memoryGB;
         return info;
     }
     

@@ -43,7 +43,7 @@ public class Motherboard extends Part {
     @Override
     protected String getInfo() {
         String info = super.getInfo();
-        info += ",\nRam slots: " + RAMSlots;
+        info += "\nRam slots: " + RAMSlots;
         return info;
     }
     

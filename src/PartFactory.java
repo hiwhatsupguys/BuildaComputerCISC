@@ -2,18 +2,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 /**
  * Lead Author(s):
+ *
  * @author Anthony Bazalaki, Elias Zarate
- *
+ * <p>
  * Class Responsibilities:
- *
  */
 public class PartFactory {
     
     //private static final File partsListFile = new File("src/Inventory.csv");
-	// better to pass the file name to the methods than a file object
-	// The PartFactory class has a static partListFile  that it will read from
+    // better to pass the file name to the methods than a file object
+    // The PartFactory class has a static partListFile  that it will read from
     private static final String partsListFile = "src/Inventory.csv";
     
     // for testing purposes
@@ -28,11 +29,12 @@ public class PartFactory {
     
     /**
      * makes specific Parts from a file that holds a parameter list for parts to be made
+     *
      * @return partsList
      * @throws FileNotFoundException
      */
     public static ArrayList<Part> makePartsFromFile() {
-    	// a new ArrayList partsList to hold the parts being read from the file
+        // a new ArrayList partsList to hold the parts being read from the file
         ArrayList<Part> partsList = new ArrayList<>();
         // to hold the file
         File file;
@@ -43,7 +45,7 @@ public class PartFactory {
         // to hold a line being read from the file
         String line;
         try {
-        	// open the file
+            // open the file
             file = new File(partsListFile);
             // start the reading the file
             scanner = new Scanner(file);
@@ -53,7 +55,7 @@ public class PartFactory {
             int i = 0;
             // while the scanner has a next line
             while (scanner.hasNextLine()) {
-            	// part is null (for now)
+                // part is null (for now)
                 part = null;
                 // store the next line
                 line = scanner.nextLine();
@@ -84,28 +86,25 @@ public class PartFactory {
                 }
                 // if part is not null
                 if (part != null) {
-                	// add the part to the partsList
+                    // add the part to the partsList
                     partsList.add(part);
                 }
-                 //VV uncomment to prove it works
+                //VV uncomment to prove it works
                 //System.out.println(partsList.get(i).getInfo());
                 // increment through the index
                 i++;
             }
         } catch (FileNotFoundException e) {
-        	// print out the error
-        	System.err.println(e);
-        	// return an empty ArrayList of Parts
-        	return new ArrayList<Part>();
-        }
-        finally
-        {
-        	// if the scanner is not null
-        	if(scanner != null)
-        	{
-        		// close the scanner
-        		scanner.close();
-        	}
+            // print out the error
+            System.err.println(e);
+            // return an empty ArrayList of Parts
+            return new ArrayList<Part>();
+        } finally {
+            // if the scanner is not null
+            if (scanner != null) {
+                // close the scanner
+                scanner.close();
+            }
         }
         return partsList;
     }

@@ -7,7 +7,7 @@
  * Child classes of Part will
  * inherit the more general behaviors/characteristics of Part, or if necessary override specific methods for a more
  * specific purpose unique to the
- * child class. (Word this differently if you don't like the way it sound Anthony. - Elias)
+ * child class.
  */
 
 // the Part class is Abstract
@@ -21,7 +21,7 @@ public abstract class Part {
     private String type = "";
     // a Part has a price
     private double price;
-    // a Part has a year in which is was manufactured. (correct if I'm wrong - Elias)
+    // a Part has a year in which is was manufactured.
     private final int year;
     private String info;
     
@@ -38,8 +38,8 @@ public abstract class Part {
         this.manufacturer = manufacturer;
         this.price = price;
         this.year = year;
-        info = "Name: " + this.name + ",\nManufacturer: " + this.manufacturer + ",\nPrice: "
-                + this.price + ",\nYear: " + this.year;
+        info = "Name: " + this.name + "\nManufacturer: " + this.manufacturer + "\nPrice: "
+                + this.price + "\nYear: " + this.year;
     }
     
     /**
@@ -54,8 +54,8 @@ public abstract class Part {
         this.manufacturer = parameters[2];
         this.price = Double.parseDouble(parameters[3]);
         this.year = Integer.parseInt(parameters[4]);
-        info = "Name: " + this.name + ",\nManufacturer: " + this.manufacturer + ",\nPrice: "
-                + this.price + ",\nYear: " + this.year;
+        info = "Name: " + this.name + "\nManufacturer: " + this.manufacturer + "\nPrice: "
+                + this.price + "\nYear: " + this.year;
     }
     
     public boolean equals(Part part) {
