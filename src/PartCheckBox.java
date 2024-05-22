@@ -17,6 +17,7 @@ public class PartCheckBox extends JCheckBox {
     
     // has-a Part
     private Part part;
+    // PartCheckBox clas has checkBoxes
     private static ArrayList<PartCheckBox> checkBoxes = new ArrayList<>();
     
     /**
