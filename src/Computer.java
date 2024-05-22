@@ -97,6 +97,7 @@ public class Computer {
     
     public String toString() {
         StringBuilder info = new StringBuilder();
+//        parts.sort();
         for (Part part : parts) {
             info.append(part.getType() + ": " + part.getName() + "\n");
         }

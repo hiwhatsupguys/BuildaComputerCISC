@@ -104,7 +104,6 @@ public class StoreView extends JFrame {
     private JPanel userPartsPanel;
     // an array list of PartsChecksBoxes for checkboxes
     private ArrayList<PartCheckBox> checkBoxes;
-    // private JLabel currentComputerPartsLabel;
     // a JTextAtrea for the current computer parts displayed
     private JTextArea currentComputerPartsTextArea;
     // a checkout button
@@ -197,7 +196,7 @@ public class StoreView extends JFrame {
         // storePanel.setBackground(Color.white);
         
         // checkboxes
-        checkBoxes = new ArrayList<>();
+        checkBoxes = PartCheckBox.getCheckBoxes();
         
         // partSelectButtons
         partSelectButtonsPanel = new JPanel();
@@ -353,6 +352,7 @@ public class StoreView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setCurrentPanel(getHomePanel());
+                updateHomePanel();
             }
         });
         checkoutButton.addActionListener(new ActionListener() {
@@ -364,9 +364,11 @@ public class StoreView extends JFrame {
 //					String partTypesString = String.join(", ", partTypes);
                     ArrayList<String> requiredPartTypesList = computer.getRequiredPartTypes();
                     String requiredPartsString = String.join(", ", requiredPartTypesList);
-                    throw new IncompleteComputerException("Computer is not complete. Add all required parts to " +
+                    String message = "Computer is not complete. Add all required parts to " +
                             "computer: \n" +
-                            requiredPartsString, computer);
+                            requiredPartsString;
+                    JOptionPane.showMessageDialog(null, message);
+                    throw new IncompleteComputerException(message, computer);
                 }
                 StringBuilder info = new StringBuilder();
                 info.append("Computer:\n");
@@ -375,8 +377,6 @@ public class StoreView extends JFrame {
                 int response = JOptionPane.showConfirmDialog(null, info, "", JOptionPane.YES_NO_OPTION);
                 if (response == JOptionPane.YES_OPTION) {
                     System.exit(0);
-                } else if (response == JOptionPane.NO_OPTION) {
-                
                 }
             }
         });
@@ -447,14 +447,6 @@ public class StoreView extends JFrame {
     }
     
     /**
-     * the update method updates the store view in its entirety
-     */
-    public void update() {
-        updateComboBox();
-        updateTopPanel();
-    }
-    
-    /**
      * The updateSpecsPanel is updates the specs panel whenever a user is
      * looking through the store's
      * selection of parts
@@ -503,6 +495,13 @@ public class StoreView extends JFrame {
         // currentComputerPartsLabel.setText(textToAdd);
         currentComputerPartsTextArea.setText(textToAdd.toString());
         
+        for (PartCheckBox checkBox : checkBoxes) {
+            Part part = checkBox.getPart();
+            if (computer.hasPartType(part) && !computer.hasPart(part)) {
+                checkBox.setEnabled(false);
+            }
+        }
+        
         // ADDING CHECKBOXES FROM USER INVENTORY!!!
         // CHECK IF THE CHECKBOX IS ALREADY THERE
         homePanel.revalidate();
@@ -526,13 +525,6 @@ public class StoreView extends JFrame {
         currentPanel = newPanel;
         currentPanel.setVisible(true);
         mainPanel.add(currentPanel, BorderLayout.CENTER);
-    }
-    
-    /**
-     * @return checkBoxes
-     */
-    public ArrayList<PartCheckBox> getCheckBoxes() {
-        return checkBoxes;
     }
     
     /**
@@ -682,8 +674,9 @@ public class StoreView extends JFrame {
             }
         });
         userPartsPanel.add(checkBoxToAdd);
-        checkBoxes.add(checkBoxToAdd);
+//        checkBoxes.add(checkBoxToAdd);
     }
+    
     
     /**
      * The removeCheckBox method removes a checkbox from the home panel in the
@@ -698,7 +691,7 @@ public class StoreView extends JFrame {
             checkBoxPartName = checkBox.getPartName();
             partName = partToRemove.getName();
             if (checkBoxPartName.equals(partName)) {
-                checkBoxes.remove(checkBox);
+                PartCheckBox.removeCheckBox(checkBox);
                 userPartsPanel.remove(checkBox);
                 updateHomePanel();
                 return;
