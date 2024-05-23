@@ -37,17 +37,36 @@ public class PartInventory {
         // the number of part types is equal the size of the inventory
     }
     
+    /**
+     * get all the parts in the inventory
+     * 
+     * @return parts (the keyset)
+     */
     public ArrayList<Part> getParts() {
         return new ArrayList<>(inventory.keySet());
     }
     
+    /**
+     * retrieve a part from the inventory
+     * 
+     * @param partName
+     * @return part
+     */
     public Part getPart(String partName) {
         for (Part part : inventory.keySet()) {
-            if (part.getName().equals(partName)) return part;
+            if (part.getName().equals(partName)) 
+            	return part;
         }
         throw new NullPointerException("part not found");
     }
     
+    /**
+     * get a certain part if it exist.
+     * 
+     * @param part
+     * @return part
+     * @throws NullPointerException
+     */
     public Part getPart(Part part) throws NullPointerException {
         if (containsPart(part)) {
             return part;
@@ -55,9 +74,16 @@ public class PartInventory {
         throw new NullPointerException("part not found");
     }
     
+    /**
+     * checks if a part is within the inventory
+     * 
+     * @param part
+     * @return true or false
+     */
     public boolean containsPart(Part part) {
         for (Part partToCheck : getParts()) {
-            if (partToCheck.equals(part)) return true;
+            if (partToCheck.equals(part))
+            	return true;
         }
         return false;
     }
@@ -78,6 +104,10 @@ public class PartInventory {
         return partTypes.toArray(new String[0]);
     }
     
+    /**
+     * return all the part types
+     * @return
+     */
     public static ArrayList<String> getAllPartTypes() {
         ArrayList<String> partTypes = new ArrayList<>();
         for (Part part : ALL_PARTS) {
@@ -89,6 +119,10 @@ public class PartInventory {
         return partTypes;
     }
     
+    /**
+     * return the number of part types
+     * @return number of part types
+     */
     public int getNumberOfPartTypes() {
         return this.getPartTypes().length;
     }
@@ -151,6 +185,10 @@ public class PartInventory {
         }
     }
     
+    /**
+     * remove a part from the inventory
+     * @param part
+     */
     public void removePart(Part part) {
         Part partInInventory = getPart(part);
         inventory.remove(partInInventory);
@@ -173,6 +211,11 @@ public class PartInventory {
         }
     }
     
+    /**
+     * to get all the types of parts in the inventory
+     * @param partType
+     * @return
+     */
     public ArrayList<Part> getPartsOfType(String partType) {
         ArrayList<Part> partsOfType = new ArrayList<>();
         for (Part part : getParts()) {
@@ -183,6 +226,10 @@ public class PartInventory {
         return partsOfType;
     }
     
+    /**
+     * returns all parts
+     * @return ALL_PARTS
+     */
     public static ArrayList<Part> getAllParts() {
         return ALL_PARTS;
     }
@@ -210,6 +257,10 @@ public class PartInventory {
         return stringBuilder.toString();
     }
     
+    /**
+     * for debugging
+     * 
+     */
     public void printDebugInfo() {
         System.out.println(toString());
     }

@@ -4,6 +4,7 @@
  * @author Anthony Bazalaki, Elias Zarate
  * <p>
  * Class Responsibilities:
+ * RAM Object will go into a Computer Object
  */
 
 // RAM is a Part

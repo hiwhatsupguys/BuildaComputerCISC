@@ -108,9 +108,13 @@ public class StoreView extends JFrame {
     private JTextArea currentComputerPartsTextArea;
     // a checkout button
     private JButton checkoutButton;
+    // a user
     private User user;
+    // a user inventory
     private PartInventory userInventory;
+    // a computer
     private Computer computer;
+    // a list of computer parts
     private ArrayList<Part> computerParts;
     
     /**
@@ -184,7 +188,7 @@ public class StoreView extends JFrame {
     }
     
     /**
-     *
+     * method that sets up the store panel
      */
     private void setupStorePanel() {
         
@@ -699,5 +703,5 @@ public class StoreView extends JFrame {
         }
     }
     
-    
+   
 }

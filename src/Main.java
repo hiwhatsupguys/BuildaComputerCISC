@@ -9,7 +9,7 @@
 
 public class Main
 {
-	// testing
+	// main
 	public static void main(String[] args)
 	{
 		StoreModel storeModel = new StoreModel();

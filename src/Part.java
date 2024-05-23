@@ -4,10 +4,10 @@
  * <p>
  * Class Responsibilities:
  * The Part Superclass serves as a blueprint for more specialized Subclasses that will be used in the Computer Class.
- * Child classes of Part will
+ * Subclasses of Part will
  * inherit the more general behaviors/characteristics of Part, or if necessary override specific methods for a more
  * specific purpose unique to the
- * child class.
+ * those Subclasses.
  */
 
 // the Part class is Abstract
@@ -58,6 +58,12 @@ public abstract class Part {
                 + this.price + "\nYear: " + this.year;
     }
     
+    /**
+     * Checks if a part is the same as another 
+     * 
+     * @param part
+     * @return if a part is the same as another
+     */
     public boolean equals(Part part) {
         return this.getName().equals(part.getName());
     }

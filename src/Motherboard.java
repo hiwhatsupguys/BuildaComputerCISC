@@ -11,7 +11,6 @@
 public class Motherboard extends Part {
     // a Motherboard has RAMSlots;
     private int RAMSlots;
-    // Might want to consider possible adding other fields for a Motherboard if we have extra time to do so.
     
     /**
      * public Constructor for a Motherboard that takes an array of strings

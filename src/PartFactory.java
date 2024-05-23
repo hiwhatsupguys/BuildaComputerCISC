@@ -9,6 +9,9 @@ import java.util.Scanner;
  * @author Anthony Bazalaki, Elias Zarate
  * <p>
  * Class Responsibilities:
+ * This class is responsible for creating parts from a csv file. Since Subclasses of the Part Superclass have a constructor
+ * that take an Array as a parameter for creating computer part objects.
+ * 
  */
 public class PartFactory {
     
@@ -18,14 +21,14 @@ public class PartFactory {
     private static final String partsListFile = "src/Inventory.csv";
     
     // for testing purposes
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
 //        makePartsFromList("src/Inventory.csv");
-        try {
-            ArrayList<Part> partsList = makePartsFromFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//        try {
+//            ArrayList<Part> partsList = makePartsFromFile();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
     
     /**
      * makes specific Parts from a file that holds a parameter list for parts to be made

@@ -21,8 +21,12 @@ public class StoreModel {
     private final int initialBalance;
     // a StoreModel has an initial stock of 3
     private int initialStoreStock = 3;
+    // a StoreModel has a user inventory
     private PartInventory userInventory;
     
+    /**
+     * Constructor
+     */
     public StoreModel() {
         user = new User();
         initialBalance = 4000;

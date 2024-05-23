@@ -3,8 +3,10 @@
  * @author Anthony Bazalaki, Elias Zarate
  *
  * Class Responsibilities:
- *
+ * A PowerSupply object will go into a Computer Object
  */
+
+// PowerSupply is a Part
 public class PowerSupply extends Part {
     
     // PowerSupply has powerEfficiency

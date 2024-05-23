@@ -7,6 +7,7 @@
  */
 
 // a CPU is a Part
+// a CPU is a Processor
 public class CPU extends Part implements Processor
 {
 	// a CPU has a clock speed 

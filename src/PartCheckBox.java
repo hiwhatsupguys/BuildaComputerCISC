@@ -40,10 +40,20 @@ public class PartCheckBox extends JCheckBox {
         return part;
     }
     
+    /**
+     * gets the name of the part associated with the checkbox
+     * 
+     * @return name of part on the checkbox
+     */
     public String getPartName() {
         return part.getName();
     }
     
+    /**
+     * A method for returning an ArrayList of checkboxes
+     * 
+     * @return checkBoxes
+     */
     public static ArrayList<PartCheckBox> getCheckBoxes() {
         return checkBoxes;
     }

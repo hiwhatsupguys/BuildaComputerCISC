@@ -6,7 +6,7 @@
  * The GPU class serves to make GPU objects that will be used in a Computer class object (a computer).
  */
 // a GPU is a Part
-// a GPU can Process/ is a Processor
+// a GPU is a Processor
 public class GPU extends Part implements Processor {
     private int clockSpeedMHz;
     private int memoryGB;

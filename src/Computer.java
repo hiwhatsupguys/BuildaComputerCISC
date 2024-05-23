@@ -32,6 +32,10 @@ public class Computer {
         requiredPartTypes.sort(String::compareToIgnoreCase);
     }
     
+    /**
+     * A method for removing a computer part from the computer
+     * @param part
+     */
     public void removePart(Part part) {
         // loop over all computer's parts
         for (int i = 0; i < parts.size(); i++) {
@@ -46,6 +50,12 @@ public class Computer {
         }
     }
     
+    /**
+     * This method checks if the computer has a certain kind of part inside of it, 
+     * if the part type is present it will not be added.
+     * @param partToCheck
+     * @return true or false
+     */
     public boolean hasPartType(Part partToCheck) {
         for (Part part : parts) {
             if (part.getType().equals(partToCheck.getType())) {
@@ -79,6 +89,12 @@ public class Computer {
         return false;
     }
     
+    
+   /**
+    * this method returns an ArrayList of strings listing all the part types that are required
+    * to make a computer
+    * @return requiredPartTypes
+    */
     public ArrayList<String> getRequiredPartTypes() {
         
         return requiredPartTypes;
@@ -86,15 +102,18 @@ public class Computer {
     }
     
     /**
-     * returns if the computer has all required partTypes
+     * returns true or false if the computer has all required partTypes
      *
-     * @return
+     * @return true or false
      */
     public boolean hasRequiredPartTypes() {
         // return true if the computer needs no required part types
         return getRequiredPartTypes().isEmpty();
     }
     
+    /**
+     * mostly for debugging
+     */
     public String toString() {
         StringBuilder info = new StringBuilder();
 //        parts.sort();

@@ -3,7 +3,9 @@
  * @author Anthony Bazalaki, Elias Zarate
  * 
  * Class Responsibilities:
- * in the even a user does not have sufficient enough funds to purchase the computer
+ * in the event a user does not have sufficient enough funds to purchase the computer
+ * Unimplemented as of final week of project, We decided to drop this kind of feature.
+ * A User now has more funds and can return items to the computer shop in the event they run out of funds.
  */
 
 

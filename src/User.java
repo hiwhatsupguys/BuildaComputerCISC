@@ -5,6 +5,7 @@
  * @author Anthony Bazalaki, Elias Zarate
  * <p>
  * Class Responsibilities:
+ * A store will have a user and this class will keep track of all relevant info related to the user
  */
 
 public class User {
@@ -15,6 +16,9 @@ public class User {
     // the user could have a separate inventory of parts, for example, if they want to swap parts
     private PartInventory partInventory = new PartInventory();
     
+    /**
+     * constructor
+     */
     public User() {
         computer = new Computer();
     }

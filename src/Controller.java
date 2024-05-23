@@ -53,6 +53,7 @@ public class Controller implements ActionListener {
     
     /**
      * Event listener
+     * This action listener is deprecated as of week 6 of the project.
      *
      * @param e
      */
